@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#06141c"/><stop offset="1" stop-color="#02060a"/>
+    </linearGradient>
+    <pattern id="grid" width="90" height="90" patternUnits="userSpaceOnUse">
+      <path d="M90 0H0V90" fill="none" stroke="#22d3ee" stroke-opacity="0.25" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#g)"/>
+  <rect width="1080" height="1920" fill="url(#grid)"/>
+  <circle cx="540" cy="760" r="300" fill="#22d3ee" fill-opacity="0.12"/>
+  <text x="540" y="980" font-family="monospace" font-size="46" fill="#22d3ee" fill-opacity="0.6"
+        text-anchor="middle">CHAPTER 1 // THE ARCHIVE</text>
+  <text x="540" y="1040" font-family="monospace" font-size="26" fill="#ffffff" fill-opacity="0.3"
+        text-anchor="middle">[ placeholder background ]</text>
+</svg>

@@ -1,0 +1,49 @@
+/* ============================================================================
+ * theme.css — palette variables + base reset
+ * ----------------------------------------------------------------------------
+ * The grade variables (--accent, --bg-0, --text, --glow, --awaken ...) are
+ * overwritten at runtime by js/grade.js as the awakening meter rises, sliding
+ * the whole UI from cold cyan to warm amber. The values here are just the cold
+ * starting point / fallback. To re-tune the look, edit grade.js (COLD/WARM).
+ * ========================================================================= */
+
+:root {
+  /* --- runtime-driven grade (defaults = fully "asleep" / cold) --- */
+  --accent: rgb(34, 211, 238);
+  --accent-soft: rgb(14, 116, 144);
+  --bg-0: rgb(3, 7, 12);
+  --bg-1: rgb(8, 18, 28);
+  --text: rgb(200, 224, 232);
+  --glow: rgb(34, 211, 238);
+  --awaken: 0;
+
+  /* --- static design tokens --- */
+  --font-display: "Courier New", ui-monospace, monospace;
+  --font-body: "Courier New", ui-monospace, monospace;
+  --frame-max: 480px;        /* phone-width frame, also centered on desktop */
+  --radius: 4px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: #000;
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  /* smooth palette shift whenever grade.js updates the variables */
+  transition: background-color 1.2s var(--ease), color 1.2s var(--ease);
+}
+
+body {
+  /* ambient backdrop frames the vertical "phone" on wide screens */
+  background:
+    radial-gradient(120% 80% at 50% 0%, var(--bg-1), var(--bg-0) 60%, #000 100%);
+  transition: background 1.6s var(--ease);
+}
+
+button, input { font-family: inherit; color: inherit; }
+button { cursor: pointer; }

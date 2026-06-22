@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#03070c" />
+  <title>NEON PROPHETS</title>
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/effects.css" />
+</head>
+<body>
+  <!-- The whole game lives in this fixed, letterboxed frame -->
+  <main id="app">
+
+    <!-- ===================== TITLE SCREEN ===================== -->
+    <section id="screen-title" class="screen screen--active">
+      <div class="title-block">
+        <h1 id="title-name" class="title-name">NEON PROPHETS</h1>
+        <p id="title-sub" class="title-sub">An interactive transmission</p>
+        <div class="title-buttons">
+          <button id="btn-begin" class="btn btn--primary" type="button">TAP TO BEGIN</button>
+          <button id="btn-continue" class="btn" type="button">CONTINUE</button>
+          <button id="btn-select" class="btn" type="button">CHAPTER SELECT</button>
+          <button id="btn-restart" class="btn btn--ghost" type="button">RESTART STORY</button>
+        </div>
+        <p class="title-hint">Headphones recommended · tap advances the story</p>
+      </div>
+    </section>
+
+    <!-- ===================== CHAPTER SELECT ===================== -->
+    <section id="screen-select" class="screen">
+      <header class="select-head">
+        <h2>TRANSMISSIONS</h2>
+        <button id="btn-select-home" class="btn btn--ghost btn--small" type="button">← title</button>
+      </header>
+      <div id="chapter-grid" class="chapter-grid"><!-- built by main.js --></div>
+    </section>
+
+    <!-- ===================== GAME SCREEN ===================== -->
+    <section id="screen-game" class="screen">
+      <!-- background image layer (set per chapter) -->
+      <div id="bg" class="bg"></div>
+
+      <!-- top HUD: awakening meter + audio/menu controls -->
+      <div class="hud">
+        <div id="meter" class="meter">
+          <div id="meter-fill" class="meter__fill"></div>
+          <span id="meter-label" class="meter__label">AWAKENING 0</span>
+        </div>
+        <div class="hud__controls">
+          <input id="vol" class="vol" type="range" min="0" max="1" step="0.05" value="0.7" aria-label="Volume" />
+          <button id="btn-mute" class="btn btn--small" type="button">♪ sound</button>
+          <button id="btn-menu" class="btn btn--small" type="button">☰ menu</button>
+        </div>
+      </div>
+
+      <!-- character portrait -->
+      <div id="portrait" class="portrait"></div>
+
+      <!-- interactive stage: dialogue / choices / rhythm render here -->
+      <div id="stage" class="stage">
+
+        <div id="dialogue" class="dialogue">
+          <p id="speaker" class="dialogue__speaker"></p>
+          <p id="text" class="dialogue__text"></p>
+          <span id="advance-hint" class="dialogue__hint">tap to continue ▸</span>
+        </div>
+
+        <div id="choices" class="choices">
+          <p id="choice-prompt" class="choices__prompt"></p>
+          <div id="choices-list" class="choices__list"><!-- buttons built by engine --></div>
+        </div>
+
+        <div id="rhythm-wrap" class="rhythm">
+          <p id="rhythm-prompt" class="rhythm__prompt"></p>
+          <div id="rhythm-area" class="rhythm__area"><!-- pulses spawn here --></div>
+          <p id="rhythm-progress" class="rhythm__progress">SIGNAL LOCK 0/0</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== ENDING SCREEN ===================== -->
+    <section id="screen-ending" class="screen">
+      <div class="ending-block">
+        <h2 id="ending-title" class="ending-title">ENDING</h2>
+        <p id="ending-text" class="ending-text"></p>
+        <p id="ending-meter" class="ending-meter"></p>
+        <button id="btn-ending-home" class="btn btn--primary" type="button">↺ RETURN TO TITLE</button>
+      </div>
+    </section>
+
+    <!-- full-screen atmospheric overlays (purely decorative) -->
+    <div class="fx fx--scanlines" aria-hidden="true"></div>
+    <div class="fx fx--grain" aria-hidden="true"></div>
+    <div class="fx fx--vignette" aria-hidden="true"></div>
+
+  </main>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
