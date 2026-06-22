@@ -24,6 +24,7 @@ let hooks = {};             // { onChapterComplete(i), onFinale(awakening) }
 let chapterIndex = 0;
 let scene = [];
 let beatIndex = 0;
+let grade = { base: "cyanCold", peak: "amberWarm" };  // current chapter's palette
 let typing = null;          // active typewriter interval, or null
 let fullText = "";          // text currently being typed (for skip-to-end)
 
@@ -40,11 +41,12 @@ export function startChapter(index) {
   const chapter = chapters[index];
   scene = chapter.scene;
   beatIndex = 0;
+  grade = chapter.grade || { base: "cyanCold", peak: "amberWarm" };
 
   // Set the chapter's stage dressing.
   ui.bg.style.backgroundImage = `url("${chapter.background}")`;
   playTrack(chapter.audio);
-  applyGrade(state.awakening);
+  applyGrade(state.awakening, grade.base, grade.peak);
 
   // Fade the background in fresh each chapter.
   ui.bg.classList.remove("bg--in");
@@ -166,7 +168,7 @@ function renderRhythm(beat) {
     (p) => {
       setProgress(p);
       // Live meter feedback as the player lands hits.
-      applyGrade(Math.min(100, state.awakening + p.gained));
+      applyGrade(Math.min(100, state.awakening + p.gained), grade.base, grade.peak);
     }
   ).then((gained) => {
     adjustAwakening(gained);
@@ -197,7 +199,7 @@ export function updateMeter(animate) {
   const v = state.awakening;
   ui.meterFill.style.width = v + "%";
   ui.meterLabel.textContent = `AWAKENING ${Math.round(v)}`;
-  applyGrade(v);
+  applyGrade(v, grade.base, grade.peak);
   if (animate) {
     ui.meter.classList.remove("meter--pulse");
     void ui.meter.offsetWidth;

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a0606"/><stop offset="1" stop-color="#0a0202"/>
+    </linearGradient>
+    <pattern id="grid" width="90" height="90" patternUnits="userSpaceOnUse">
+      <path d="M90 0H0V90" fill="none" stroke="#dc2626" stroke-opacity="0.22" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#g)"/>
+  <rect width="1080" height="1920" fill="url(#grid)"/>
+  <circle cx="540" cy="700" r="340" fill="#dc2626" fill-opacity="0.12"/>
+  <circle cx="540" cy="700" r="200" fill="#dc2626" fill-opacity="0.10"/>
+  <text x="540" y="980" font-family="monospace" font-size="40" fill="#dc2626" fill-opacity="0.7"
+        text-anchor="middle">EP 7 // COLLAPSE PROTOCOL</text>
+  <text x="540" y="1036" font-family="monospace" font-size="24" fill="#ffffff" fill-opacity="0.28"
+        text-anchor="middle">[ placeholder background ]</text>
+</svg>

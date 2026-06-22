@@ -131,7 +131,8 @@ function showEnding(awakening) {
   $("ending-title").textContent = ending.title;
   $("ending-text").textContent = ending.text;
   $("ending-meter").textContent = `FINAL AWAKENING — ${Math.round(awakening)} / 100`;
-  applyGrade(awakening);
+  // Ending glows along the finale's dawn palette: ash when asleep, amber when risen.
+  applyGrade(awakening, "dawnDim", "amberDawn");
   showScreen("ending");
 }
 

@@ -7,11 +7,22 @@ playable companion to the *Neon Prophets* concept album and animated series.
 > The Syndicate. You play **AL ROYALE**, an archivist who deletes old culture for
 > the regime — until a forbidden transmission begins to wake him up.
 
-This repo is a **playable v1 prototype**: 2 fully built chapters demonstrating
-scene flow, branching choices, the persistent **awakening meter**, the
-**cold → warm color-grade shift**, and the **"tune into the frequency"** rhythm
-mini-mechanic. Everything uses placeholder art/audio you can swap for the real
-thing without touching engine code.
+This repo is a **playable v1 prototype**: the full **7-chapter** story arc
+(mapping the 8 episodes — Ep 3 & 4 share the "Ghost Protocol" chapter)
+demonstrating scene flow, branching choices, the persistent **awakening meter**,
+the **per-episode color grade + cold→warm meter shift**, and the
+**"tune into the frequency"** rhythm mini-mechanic. Everything uses placeholder
+art/audio you can swap for the real thing without touching engine code.
+
+| Ch | Episode | Color identity | Closing line |
+|----|---------|----------------|--------------|
+| 1 | Archive Division | cold cyan → first spark | *"every file got a funeral, every dream got a number"* |
+| 2 | Lost Archives | cold → warm transition | *"the past is in the dust and the dust ain't settled yet"* |
+| 3 | Ghost Protocol (Ep 3–4) | magenta + teal underground | *"now we're back, and we ain't moving back"* |
+| 4 | Children of Oracle | gold, beautiful-unsettling | *"Oracle fed us every answer, now nobody asks why"* |
+| 5 | The Founders' Circle | opulent gold + black | *"you don't own my mind, and you don't own mine"* |
+| 6 | Collapse Protocol | blood red, broken | *"what was it all in service of"* |
+| 7 | Neon Rising (finale) | warm amber dawn | *"they erased the story... so I became the signal"* |
 
 ---
 
@@ -80,10 +91,15 @@ You only ever need to edit **`js/story.js`** to change the story.
 - The meter is a single 0–100 value that **persists across chapters**.
 - Choices that embrace memory/creativity/rebellion **raise** it; choices that
   comply with ORACLE **lower** it. Landing rhythm pulses also raises it.
-- `js/grade.js` continuously maps that value onto the CSS palette variables, so
-  the entire UI slides from **cold cyan / sterile** at 0 to **warm amber / alive**
-  at 100. This palette shift is the core visual metaphor — re-tune the two
-  endpoints by editing `COLD` and `WARM` in `grade.js`.
+- Each chapter declares its own art-directed palette via
+  `grade: { base, peak }` (palette names defined in `js/grade.js` → `PALETTES`).
+  The meter interpolates **within** that chapter's range — from its colder
+  `base` toward its warmer/brighter `peak` — so every episode keeps its identity
+  (cyan, magenta+teal, gold, blood red, amber dawn) **and** the meter still
+  visibly shifts the grade. Because the meter climbs across the game, early
+  chapters sit near their base and the finale glows near its peak.
+- Re-tune the whole look by editing the `PALETTES` table in `js/grade.js`;
+  re-assign an episode's colors by changing its `grade` in `story.js`.
 - The **ending** the player reaches is decided by their final meter value
   (thresholds live in `meta.endings` in `story.js`).
 
@@ -96,17 +112,20 @@ chapter is data-only:
 
 ```js
 {
-  id: "ch3",
+  id: "ch9",
   title: "The Purge",
-  episode: 3,
-  audio: "assets/audio/ch3.mp3",          // your song for this chapter
-  background: "assets/img/bg/bg_ch3.jpg", // your background art
+  episode: 9,
+  audio: "assets/audio/ep9.mp3",            // your song for this chapter
+  background: "assets/img/bg/bg_ep9.jpg",   // your background art
+  grade: { base: "bloodBroken", peak: "amberDawn" }, // palette names from grade.js
   scene: [ /* beats — see below */ ]
 }
 ```
 
 Chapters unlock in array order automatically. **The last chapter in the array is
-treated as the finale**, so when its scene ends the ending is shown.
+treated as the finale**, so when its scene ends the ending is shown. The
+`grade` field picks the episode's color identity — see `PALETTES` in
+`js/grade.js` for available names (or add your own).
 
 ### Beats
 
@@ -167,6 +186,7 @@ pulse simply costs that pulse's potential meter; there's no fail state.
 
 ## Roadmap notes
 
-- Chapters 3–8 are stubbed by the data structure; add them in `story.js`.
+- All 7 chapters are written with placeholder art/audio — drop in real assets
+  and per-chapter songs as they're ready.
 - Possible later upgrades: beat-synced rhythm tied to the real audio waveform,
   per-character voice styling, and an animated intro.
