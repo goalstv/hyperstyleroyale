@@ -1,7 +1,7 @@
-# NEON PROPHETS
+# HYPERSTYLE ROYALE
 
 An interactive cyberpunk visual novel with a rhythm/awakening mechanic — the
-playable companion to the *Neon Prophets* concept album and animated series.
+playable companion to the concept album and animated series.
 
 > Year 2099. An AI called **ORACLE** controls all culture through a hidden elite,
 > The Syndicate. You play **AL ROYALE**, an archivist who deletes old culture for
@@ -129,10 +129,20 @@ treated as the finale**, so when its scene ends the ending is shown. The
 
 ### Beats
 
-A `scene` is an ordered list of beats. There are three types:
+A `scene` is an ordered list of beats. There are four types:
 
 ```js
-// 1) A line of narration or dialogue (typewriter, tap to advance)
+// 0) A carousel PANEL — a full slide with its text baked into the artwork.
+//    Use this for your designed Instagram panels. The engine draws NO text of
+//    its own; it shows the slide and advances on one tap. (See "Carousel
+//    panels" below.)
+{ type: "panel",
+  image: "assets/img/panels/ep1/03_terminal.svg",
+  oracleGlitch: true }                            // optional: glitch on this slide
+
+// 1) A line of engine-rendered narration/dialogue (typewriter, tap to advance).
+//    Use only when you want the ENGINE to draw the words; for baked-text art
+//    use "panel" instead.
 { type: "line",
   speaker: "AL ROYALE",                         // omit for pure narration
   portrait: "assets/img/portraits/al.svg",      // optional
@@ -156,23 +166,66 @@ A `scene` is an ordered list of beats. There are three types:
 ```
 
 To branch, give a target beat an `id` and point a choice's `goto` at it. Omit
-`goto` to simply continue to the next beat.
+`goto` to simply continue to the next beat. A `choice` or `rhythm` beat may also
+take an optional `image:` to show its own dedicated slide; otherwise it overlays
+whatever panel came before it.
+
+---
+
+## Carousel panels (your designed art)
+
+This is the main authoring path. Your Instagram-style slides already contain
+their own lettering (speech bubbles, narration boxes, quote cards), so each one
+is a `panel` beat and the engine adds no text over it. Ep 1 in `story.js` is
+built this way as a working example.
+
+**Folder convention** — one folder per episode, numbered slides in order:
+
+```
+assets/img/panels/
+  ep1/  01_cover.jpg  02_establishing.jpg  03_terminal.jpg  ...
+  ep2/  01_cover.jpg  ...
+```
+
+To build a chapter, list the slides as `panel` beats and drop your `choice` /
+`rhythm` beats in at the awakening moments:
+
+```js
+scene: [
+  { type: "panel", image: "assets/img/panels/ep1/01_cover.jpg" },
+  { type: "panel", image: "assets/img/panels/ep1/02_establishing.jpg" },
+  { type: "choice", prompt: "Purge the forbidden file?", options: [ /* ... */ ] },
+  { type: "panel", image: "assets/img/panels/ep1/05_transmission.jpg" },
+  { type: "rhythm", prompt: "Tune into the lost frequency.", pulses: 5,
+    awakeningPerHit: 4, difficulty: "easy" },
+  { type: "panel", image: "assets/img/panels/ep1/06_quote.jpg" }
+]
+```
+
+Images are shown whole (no cropping) by default — see `meta.imageFit`.
 
 ---
 
 ## How to swap in real art & audio
 
-1. Drop your files into `assets/img/bg/`, `assets/img/portraits/`, or
-   `assets/audio/`.
-2. Update the matching `background`, `portrait`, and `audio` filename strings in
+1. Drop your files into `assets/img/panels/epN/` (carousel slides) or
+   `assets/img/bg/` / `assets/img/portraits/`, and songs into `assets/audio/`.
+2. Update the matching `image` / `background` / `audio` filename strings in
    `js/story.js`.
 
 That's the whole process — no JavaScript changes required.
 
 **Recommended formats**
-- Backgrounds: tall/vertical (e.g. 1080×1920) JPG or PNG.
-- Portraits: transparent PNG, roughly 2:3.
+- Carousel panels: portrait JPG/PNG (your 1080×1350 Instagram export is perfect).
+- Backgrounds (for `line`-mode chapters): tall/vertical JPG or PNG.
+- Portraits (optional, for `line` mode): transparent PNG, roughly 2:3.
 - Audio: MP3 (best browser support) or OGG. Tracks loop automatically.
+
+### Image fit (no cropping)
+`meta.imageFit` in `story.js` controls how images fill the vertical frame:
+`"contain"` (default) shows the **whole** image with cinematic letterbox bars so
+nothing is cut off; `"cover"` fills edge-to-edge and crops top/bottom. Any
+chapter can override with its own `fit:` field.
 
 ---
 

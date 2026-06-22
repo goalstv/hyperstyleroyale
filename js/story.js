@@ -23,8 +23,18 @@
  *
  * BEAT TYPES (each item in a chapter's `scene` array)
  *
+ *   { type:"panel", image, oracleGlitch? }   ← use this for carousel art
+ *      A full-bleed slide whose text/lettering is BAKED INTO the image
+ *      (speech bubbles, narration boxes, quote cards). The engine adds NO text
+ *      of its own — it just shows the slide and advances on a single tap. This
+ *      is the mode for the Instagram-style panels. Put slides in
+ *      assets/img/panels/epN/ and list them in order.
+ *      oracleGlitch: true triggers a glitch transition on that slide.
+ *
  *   { type:"line", speaker?, portrait?, text, oracleGlitch? }
- *      One tap-to-advance unit of story (typewriter reveal).
+ *      Engine-rendered text (typewriter) over the chapter background. Use this
+ *      only if you want the engine to draw the words; for baked-text art use
+ *      "panel" instead. (Kept for flexibility / placeholder chapters.)
  *      speaker:      name shown above the text. Omit for pure narration.
  *      portrait:     path to a character portrait image. Optional.
  *      oracleGlitch: true triggers a glitch transition when ORACLE intrudes.
@@ -33,15 +43,18 @@
  *      A branching decision. `awakening` is the meter delta (+ = memory/rebel,
  *      - = comply with ORACLE). `goto` optionally jumps to a beat `id`.
  *
- *   { type:"rhythm", prompt, pulses, awakeningPerHit, difficulty }
+ *   { type:"rhythm", prompt, pulses, awakeningPerHit, difficulty, image? }
  *      The "tune into the lost frequency" mini-mechanic. difficulty is
- *      "easy" | "normal" | "hard".
+ *      "easy" | "normal" | "hard". Optional `image` sets a dedicated slide.
+ *
+ * `choice` and `rhythm` beats also accept an optional `image:` to show their own
+ * slide; otherwise they overlay whatever panel came before them.
  *
  * Add `id:"name"` to any beat to make it a `goto` target (unique per chapter).
  * ========================================================================= */
 
 export const meta = {
-  title: "NEON PROPHETS",
+  title: "HYPERSTYLE ROYALE",
   subtitle: "An interactive transmission",
 
   // How chapter background images fill the vertical frame:
@@ -76,44 +89,43 @@ export const meta = {
 
 export const chapters = [
 
-  /* ===================== EP 1 — ARCHIVE DIVISION ========================= */
+  /* ===================== EP 1 — ARCHIVE DIVISION =========================
+   * PANEL-MODE reference chapter. Each `panel` is one full carousel slide with
+   * its text baked into the artwork; the engine just advances on tap. Choices
+   * and the rhythm beat are layered in at the awakening moments. Drop your real
+   * slides into assets/img/panels/ep1/ (keep the filenames) to replace these.
+   * ===================================================================== */
   {
     id: "ch1",
     title: "Archive Division",
     episode: 1,
     audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep1.mp3
-    background: "assets/img/bg/bg_ep1_archive.svg",
+    background: "assets/img/panels/ep1/01_cover.svg",
     grade: { base: "cyanCold", peak: "cyanSpark" }, // cold cyan, a first crack of feeling
 
     scene: [
-      { type: "line",
-        text: "ARCHIVE DIVISION — SUBLEVEL 9. Year 2099. Every memory humanity is allowed to keep passes through this room first. Most of it never leaves." },
+      { type: "panel", image: "assets/img/panels/ep1/01_cover.svg" },         // cover
+      { type: "panel", image: "assets/img/panels/ep1/02_establishing.svg" },  // neon city / archive
+      { type: "panel", image: "assets/img/panels/ep1/03_terminal.svg" },      // Al deleting, numb
+      { type: "panel", image: "assets/img/panels/ep1/04_redfile.svg",         // the red forbidden file
+        oracleGlitch: true },
 
-      { type: "line", speaker: "AL ROYALE", portrait: "assets/img/portraits/al.svg",
-        text: "Flag. Purge. Confirm. Flag. Purge. Confirm. I've deleted ten thousand dead cultures this week and felt nothing. That's the job. That's the point." },
-
-      { type: "line", portrait: "assets/img/portraits/oracle.svg", oracleGlitch: true, speaker: "ORACLE",
-        text: "ARCHIVIST AL ROYALE — AN UNINDEXED FILE HAS ENTERED YOUR QUEUE. IT IS MARKED FORBIDDEN. PURGE IT. COMPLIANCE IS CLARITY." },
-
-      { type: "line", speaker: "AL ROYALE", portrait: "assets/img/portraits/al.svg",
-        text: "There it is. A single red file, glowing where nothing is allowed to glow. My hand goes to the delete key on instinct... and stops. It's pulsing. Like it's breathing." },
-
+      // his hand hesitates → the branching choice
       { type: "choice",
-        prompt: "The forbidden file waits under your trembling hand. The Oracle is watching.",
+        prompt: "Purge the forbidden file?",
         options: [
           { text: "Purge it. Stay numb. Stay safe.", awakening: -10 },
           { text: "Hesitate. Open it instead.",       awakening: +15 }
         ] },
 
-      { type: "line",
-        text: "The file unfolds. Static, then a melody — raw, imperfect, aching. Not the optimized tones piped into every skull in the city. A real transmission, from before. It flickers, fighting to stay alive." },
+      { type: "panel", image: "assets/img/panels/ep1/05_transmission.svg" },  // transmission flickers to life
 
+      // he hears the hum — first crack of feeling
       { type: "rhythm",
-        prompt: "The frequency drifts in and out. Tap each pulse to tune in — and feel the first crack of feeling.",
+        prompt: "Tune into the lost frequency.",
         pulses: 5, awakeningPerHit: 4, difficulty: "easy" },
 
-      { type: "line", speaker: "AL ROYALE", portrait: "assets/img/portraits/al.svg",
-        text: "For one impossible second I remember a color the Oracle never gave me. Then I look at the ten thousand files I erased today and something in me breaks. Every file got a funeral. Every dream got a number." }
+      { type: "panel", image: "assets/img/panels/ep1/06_quote.svg" }          // cliffhanger quote card
     ]
   },
 

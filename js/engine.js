@@ -25,15 +25,26 @@ let chapterIndex = 0;
 let scene = [];
 let beatIndex = 0;
 let grade = { base: "cyanCold", peak: "amberWarm" };  // current chapter's palette
+let currentFit = "contain";  // how the current chapter's images fill the frame
 let typing = null;          // active typewriter interval, or null
 let fullText = "";          // text currently being typed (for skip-to-end)
 
 export function init(refs, lifecycleHooks) {
   ui = refs;
   hooks = lifecycleHooks || {};
-  // Tapping anywhere over the scene advances dialogue — except on the HUD,
-  // choice buttons, or rhythm pulses, which handle their own input.
+  // Tapping anywhere over the scene advances panels/dialogue — except on the
+  // HUD, choice buttons, or rhythm pulses, which handle their own input.
   ui.screen.addEventListener("pointerdown", onStageTap);
+}
+
+// Swap the full-bleed image with a fresh fade. Used for chapter art and panels.
+function showBackground(src) {
+  if (!src) return;
+  ui.bg.style.backgroundImage = `url("${src}")`;
+  ui.bg.style.backgroundSize = currentFit === "cover" ? "cover" : "contain";
+  ui.bg.classList.remove("bg--in");
+  void ui.bg.offsetWidth;             // reflow to restart the transition
+  ui.bg.classList.add("bg--in");
 }
 
 export function startChapter(index) {
@@ -42,21 +53,14 @@ export function startChapter(index) {
   scene = chapter.scene;
   beatIndex = 0;
   grade = chapter.grade || { base: "cyanCold", peak: "amberWarm" };
-
-  // Set the chapter's stage dressing.
-  ui.bg.style.backgroundImage = `url("${chapter.background}")`;
   // "cover" fills the frame (crops a 4:5 image); "contain" shows the WHOLE
   // image with letterbox bars (nothing cut off). Per-chapter `fit` overrides
   // the global meta.imageFit default.
-  const fit = chapter.fit || meta.imageFit || "cover";
-  ui.bg.style.backgroundSize = fit === "contain" ? "contain" : "cover";
+  currentFit = chapter.fit || meta.imageFit || "cover";
+
   playTrack(chapter.audio);
   applyGrade(state.awakening, grade.base, grade.peak);
-
-  // Fade the background in fresh each chapter.
-  ui.bg.classList.remove("bg--in");
-  void ui.bg.offsetWidth;            // reflow to restart the transition
-  ui.bg.classList.add("bg--in");
+  showBackground(chapter.background);   // chapter cover / fallback image
 
   renderBeat();
 }
@@ -65,9 +69,11 @@ function onStageTap(e) {
   // Ignore taps on interactive chrome so controls/choices/pulses still work.
   if (e.target.closest(".hud, .choices, .rhythm, button, input")) return;
   const beat = scene[beatIndex];
-  if (!beat || beat.type !== "line") return;   // choices/rhythm handle own taps
-  if (typing) { finishTyping(); return; }       // first tap completes the reveal
-  nextBeat();                                    // second tap advances
+  if (!beat) return;
+  if (beat.type === "panel") { nextBeat(); return; }   // panels: one tap advances
+  if (beat.type !== "line") return;                    // choices/rhythm: own taps
+  if (typing) { finishTyping(); return; }               // first tap completes reveal
+  nextBeat();                                            // second tap advances
 }
 
 function nextBeat() {
@@ -87,11 +93,21 @@ function renderBeat() {
   const beat = scene[beatIndex];
   resetStage();
 
+  if (beat.type === "panel")       return renderPanel(beat);
   if (beat.type === "line")        return renderLine(beat);
   if (beat.type === "choice")      return renderChoice(beat);
   if (beat.type === "rhythm")      return renderRhythm(beat);
   // Unknown beat type: skip gracefully.
   nextBeat();
+}
+
+/* --- panel: a full-bleed carousel slide with its text baked into the art --- */
+function renderPanel(beat) {
+  if (beat.oracleGlitch) triggerGlitch();
+  ui.portrait.classList.remove("portrait--in");
+  ui.stage.classList.add("stage--panel");   // drop the readability gradient
+  showBackground(beat.image);
+  ui.panelHint.classList.add("hint--visible");
 }
 
 /* --- line ---------------------------------------------------------------- */
@@ -132,9 +148,11 @@ function finishTyping() {
 
 /* --- choice -------------------------------------------------------------- */
 function renderChoice(beat) {
+  if (beat.image) showBackground(beat.image);   // optional dedicated choice slide
   ui.dialogue.classList.remove("dialogue--visible");
   ui.choicesList.innerHTML = "";
-  ui.choicePrompt.textContent = beat.prompt;
+  ui.choicePrompt.textContent = beat.prompt || "";
+  ui.choicePrompt.style.display = beat.prompt ? "block" : "none";
   ui.choices.classList.add("choices--visible");
 
   beat.options.forEach((opt) => {
@@ -156,6 +174,7 @@ function renderChoice(beat) {
 
 /* --- rhythm -------------------------------------------------------------- */
 function renderRhythm(beat) {
+  if (beat.image) showBackground(beat.image);   // optional dedicated rhythm slide
   ui.dialogue.classList.remove("dialogue--visible");
   ui.portrait.classList.remove("portrait--in");
   ui.rhythmPrompt.textContent = beat.prompt;
@@ -198,6 +217,8 @@ function resetStage() {
   ui.choices.classList.remove("choices--visible");
   ui.rhythmWrap.classList.remove("rhythm--visible");
   ui.hint.classList.remove("hint--visible");
+  ui.panelHint.classList.remove("hint--visible");
+  ui.stage.classList.remove("stage--panel");
 }
 
 export function updateMeter(animate) {

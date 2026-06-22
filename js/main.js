@@ -28,6 +28,7 @@ const ui = {
   bg:            $("bg"),
   portrait:      $("portrait"),
   stage:         $("stage"),
+  panelHint:     $("panel-hint"),
   dialogue:      $("dialogue"),
   speaker:       $("speaker"),
   text:          $("text"),
