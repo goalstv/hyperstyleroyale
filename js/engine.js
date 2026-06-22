@@ -110,11 +110,12 @@ function renderPanel(beat) {
   ui.panelHint.classList.add("hint--visible");
 }
 
-/* --- line ---------------------------------------------------------------- */
+/* --- line: clean background + engine-rendered dialogue (the main mode) ---- */
 function renderLine(beat) {
   if (beat.oracleGlitch) triggerGlitch();
+  if (beat.image) showBackground(beat.image);   // optional per-line scene art
 
-  // Portrait + speaker.
+  // Optional character portrait/sprite (clean-art scenes usually omit this).
   if (beat.portrait) {
     ui.portrait.style.backgroundImage = `url("${beat.portrait}")`;
     ui.portrait.classList.add("portrait--in");
