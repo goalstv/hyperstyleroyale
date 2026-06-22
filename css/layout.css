@@ -51,6 +51,7 @@
 }
 .title-buttons {
   margin-top: 44px;
+  margin-inline: auto;
   display: flex;
   flex-direction: column;
   gap: 14px;
