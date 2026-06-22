@@ -79,7 +79,7 @@ export const chapters = [
    * detects the anomaly. */
   {
     id: "ch1", title: "Archive Division", episode: 1,
-    audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep1.mp3
+    audio: "assets/audio/Archive%20Division.mp3",
     background: "assets/img/cards_ep1_cover.jpg",
     grade: { base: "cyanCold", peak: "cyanSpark" },
     scene: [
@@ -106,7 +106,7 @@ export const chapters = [
    * the signal spreads beyond his control.  (Restored standalone episode.) */
   {
     id: "ch2", title: "Neon Prophets", episode: 2,
-    audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep2.mp3
+    audio: "assets/audio/Neon%20Prophets.mp3",
     background: "assets/img/cards_ep2_cover.jpg",
     grade: { base: "cyanCold", peak: "signalBloom" },
     scene: [
@@ -137,7 +137,7 @@ export const chapters = [
    * Al realizes history was systematically edited. */
   {
     id: "ch3", title: "Lost Archives", episode: 3,
-    audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep3.mp3
+    audio: "assets/audio/Lost%20Archives.mp3",
     background: "assets/img/cards_ep3_cover.jpg",
     grade: { base: "cyanCold", peak: "amberWarm" },
     scene: [
@@ -164,7 +164,7 @@ export const chapters = [
    * more than a song; timestamp reveals impossible future origin. */
   {
     id: "ch4", title: "Ghost Protocol", episode: 4,
-    audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep4.mp3
+    audio: "assets/audio/Ghost%20Protocol.mp3",
     background: "assets/img/cards_ep4_cover.jpg",
     grade: { base: "undergroundTeal", peak: "undergroundMagenta" },
     scene: [
@@ -194,7 +194,7 @@ export const chapters = [
    * Hope → Fear.  Reveal ORACLE's true origins. */
   {
     id: "ch5", title: "Children of Oracle", episode: 5,
-    audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep5.mp3
+    audio: "assets/audio/Children%20of%20Oracle.mp3",
     background: "assets/img/cards_ep5_cover.jpg",
     grade: { base: "goldSerene", peak: "goldDefiant" },
     scene: [
@@ -220,7 +220,7 @@ export const chapters = [
    * Fear → Defiance.  Reveal the elite power structure. */
   {
     id: "ch6", title: "The Founders' Circle", episode: 6,
-    audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep6.mp3
+    audio: "assets/audio/The%20Founders%20Circle.mp3",
     background: "assets/img/cards_ep6_cover.jpg",
     grade: { base: "goldOpulent", peak: "goldDefiant" },
     scene: [
@@ -247,7 +247,7 @@ export const chapters = [
    * Oracle's plant; Ghost falls protecting Al — see STORY_BIBLE.md.) */
   {
     id: "ch7", title: "Collapse Protocol", episode: 7,
-    audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep7.mp3
+    audio: "assets/audio/Collapse%20Protocol.mp3",
     background: "assets/img/cards_ep7_cover.jpg",
     grade: { base: "bloodBroken", peak: "bloodEmber" },
     scene: [
@@ -274,7 +274,7 @@ export const chapters = [
    * created and transmitted Neon Prophets. The loop closes. */
   {
     id: "ch8", title: "Neon Rising", episode: 8,
-    audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep8.mp3
+    audio: "assets/audio/Neon%20Rising.mp3",
     background: "assets/img/cards_ep8_cover.jpg",
     grade: { base: "dawnDim", peak: "amberDawn" },
     scene: [
