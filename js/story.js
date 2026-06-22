@@ -2,51 +2,40 @@
  * HYPERSTYLE ROYALE — STORY DATA  (Season 1, canonical order)
  * ----------------------------------------------------------------------------
  * This is the ONLY file you need to edit to change the narrative.
- * No engine code lives here. Add chapters, edit dialogue, tune choices freely.
+ * No engine code lives here. See STORY_BIBLE.md for the canonical timeline and
+ * docs/LUMA_ASSET_PROMPTS.md for the art brief.
  *
- * The 8 chapters below map 1:1 to the 8 Season 1 episodes. See STORY_BIBLE.md
- * for the canonical timeline, value shifts, and character arcs.
- *
- *   1. Archive Division      Comfort   → Unease
- *   2. Neon Prophets         Curiosity → Obsession
- *   3. Lost Archives         Ignorance → Awareness
- *   4. Ghost Protocol        Isolation → Alliance
- *   5. Children of Oracle     Hope      → Fear
- *   6. The Founders' Circle   Fear      → Defiance
- *   7. Collapse Protocol      Victory   → Despair
- *   8. Neon Rising            Despair   → Transcendence
- *
- * HOW TO ADD / EDIT A CHAPTER
- *   1. Copy a chapter object in the `chapters` array.
- *   2. Give it a unique `id`, set `episode` + `title`.
- *   3. Point art at assets/ (panels in assets/img/panels/epN/, or a background
- *      in assets/img/bg/) and `audio` at a track in assets/audio/.
- *   4. Set `grade` — the episode's color identity (see PALETTES in js/grade.js).
- *   5. Fill `scene` with beats (the four beat types are documented below).
- *   Chapters unlock in array order; the LAST one is treated as the finale.
+ * VISUAL APPROACH: clean (textless) 9:16 art + engine-rendered text.
+ *   - Scene art lives flat in assets/img/ with underscore-flattened names that
+ *     encode the path, e.g.  assets/img/scenes_ep1_01_establishing.jpg
+ *     and                    assets/img/cards_ep1_cover.jpg
+ *     (The art tool can't nest folders, so the path is baked into the name.)
+ *   - The engine draws all dialogue, titles and quotes ON TOP of the images,
+ *     so the images themselves carry NO text.
  *
  * BEAT TYPES (each item in a chapter's `scene` array)
  *
- *   { type:"panel", image, oracleGlitch? }   ← use this for carousel art
- *      A full-bleed slide whose text/lettering is BAKED INTO the image
- *      (speech bubbles, narration boxes, quote cards). The engine adds NO text
- *      of its own — it shows the slide and advances on a single tap. Put slides
- *      in assets/img/panels/epN/ and list them in order.
+ *   { type:"card", image, kicker?, title?, quote?, oracleGlitch? }
+ *      A title or quote card: the engine renders big centered type over a
+ *      textless card image. Use `kicker`+`title` for a cover, `quote` for a
+ *      closing line. Advances on one tap.
  *
- *   { type:"line", speaker?, portrait?, text, oracleGlitch? }
- *      Engine-rendered text (typewriter) over the chapter background. Use only
- *      when you want the ENGINE to draw the words; for baked-text art use
- *      "panel". (Episodes 3–8 below use this until their carousel art lands.)
+ *   { type:"line", image?, speaker?, text, oracleGlitch? }
+ *      Engine-rendered dialogue/narration (typewriter) over a clean scene image.
+ *      `image` swaps the background for this beat; omit to keep the current one.
+ *      `speaker` shows a name plate (omit for pure narration).
  *
- *   { type:"choice", prompt, options:[{ text, awakening, goto? }] }
+ *   { type:"choice", prompt, options:[{ text, awakening, goto? }], image? }
  *      A branching decision. `awakening` is the meter delta (+ = memory/rebel,
  *      - = comply with ORACLE). `goto` optionally jumps to a beat `id`.
  *
  *   { type:"rhythm", prompt, pulses, awakeningPerHit, difficulty, image? }
  *      The "tune into the lost frequency" mini-mechanic.
- *      difficulty: "easy" | "normal" | "hard".
  *
- * `choice` and `rhythm` beats also accept an optional `image:` slide.
+ *   { type:"panel", image, oracleGlitch? }
+ *      A full slide with text BAKED INTO the art (no engine text). Not used in
+ *      the clean-art build, but kept for flexibility.
+ *
  * Add `id:"name"` to any beat to make it a `goto` target (unique per chapter).
  * ========================================================================= */
 
@@ -54,15 +43,13 @@ export const meta = {
   title: "HYPERSTYLE ROYALE",
   subtitle: "An interactive transmission",
 
-  // How chapter background images fill the vertical frame:
-  //   "cover"   = fill the screen, cropping a portrait/4:5 image top & bottom.
-  //   "contain" = show the WHOLE image with cinematic letterbox bars (no crop).
-  // Any chapter can override this with its own `fit:` field.
-  imageFit: "contain",
+  // 9:16 clean art fills the screen edge-to-edge. "cover" = full-bleed (crops
+  // a hair if the device is taller than 16:9); "contain" = whole image with
+  // letterbox bars. Any chapter can override with its own `fit:`.
+  imageFit: "cover",
 
-  // Final meter (0–100) is matched to the highest `min` it meets to pick an
-  // ending. The finale (Ep8) reveals that FUTURE AL ROYALE created and
-  // transmitted Neon Prophets — closing the loop.
+  // Final meter (0–100) → highest `min` it meets picks the ending. The finale
+  // reveals FUTURE AL ROYALE created and transmitted Neon Prophets.
   endings: [
     {
       id: "asleep",
@@ -88,321 +75,226 @@ export const meta = {
 export const chapters = [
 
   /* ===================== EP 1 — ARCHIVE DIVISION =========================
-   * Story Function: Introduce Al Royale, Neon City, the Archive Division,
-   *   ORACLE, and the controlled world.
-   * Major Event:    Al discovers a corrupted file marked NEON_PROPHETS.
-   * Ending:         ORACLE detects an unauthorized memory anomaly.
-   * Value Shift:    Comfort → Unease
-   *
-   * PANEL-MODE chapter. Each `panel` is one carousel slide with its text baked
-   * into the art. Replace files in assets/img/panels/ep1/ to swap in real art.
-   * ===================================================================== */
+   * Comfort → Unease.  Al discovers the corrupted NEON_PROPHETS file; ORACLE
+   * detects the anomaly. */
   {
-    id: "ch1",
-    title: "Archive Division",
-    episode: 1,
+    id: "ch1", title: "Archive Division", episode: 1,
     audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep1.mp3
-    background: "assets/img/panels/ep1/01_cover.svg",
+    background: "assets/img/cards_ep1_cover.jpg",
     grade: { base: "cyanCold", peak: "cyanSpark" },
-
     scene: [
-      { type: "panel", image: "assets/img/panels/ep1/01_cover.svg" },            // cover
-      { type: "panel", image: "assets/img/panels/ep1/02_establishing.svg" },     // neon city / archive
-      { type: "panel", image: "assets/img/panels/ep1/03_terminal.svg" },         // Al deleting, numb
-      { type: "panel", image: "assets/img/panels/ep1/04_neonprophets_file.svg" },// finds corrupted NEON_PROPHETS
-
-      // his hand hesitates over the forbidden file
-      { type: "choice",
-        prompt: "A corrupted file marked NEON_PROPHETS. Protocol says purge on sight.",
+      { type: "card", image: "assets/img/cards_ep1_cover.jpg", kicker: "Episode 01", title: "ARCHIVE DIVISION" },
+      { type: "line", image: "assets/img/scenes_ep1_01_establishing.jpg",
+        text: "Neon City, 2099. The Archive Division — where culture comes to be deleted, and where I am very good at my job." },
+      { type: "line", image: "assets/img/scenes_ep1_02_terminal.jpg", speaker: "AL ROYALE",
+        text: "Flag. Purge. Confirm. Ten thousand memories a shift — erased, catalogued, forgotten. I haven't felt a thing in years. That's the point." },
+      { type: "line", image: "assets/img/scenes_ep1_03_redfile.jpg",
+        text: "Then a corrupted file surfaces with no stamp and no origin, glowing red where nothing is allowed to glow. The tag reads: NEON_PROPHETS." },
+      { type: "choice", prompt: "It pulses under your hand like it's breathing. Protocol says purge on sight.",
         options: [
           { text: "Purge it. Stay numb. Stay safe.", awakening: -10 },
           { text: "Hesitate. Quarantine it instead.", awakening: +12 }
         ] },
-
-      { type: "panel", image: "assets/img/panels/ep1/05_anomaly.svg",            // ORACLE detects the anomaly
-        oracleGlitch: true },
-      { type: "panel", image: "assets/img/panels/ep1/06_quote.svg" }             // cliffhanger quote card
+      { type: "line", image: "assets/img/scenes_ep1_04_anomaly.jpg", speaker: "ORACLE", oracleGlitch: true,
+        text: "UNAUTHORIZED MEMORY ANOMALY DETECTED. TRACE: ARCHIVIST AL ROYALE. COMPLIANCE IS CLARITY." },
+      { type: "card", image: "assets/img/cards_ep1_quote.jpg", quote: "Every file got a funeral. Every dream got a number." }
     ]
   },
 
   /* ======================= EP 2 — NEON PROPHETS ==========================
-   * Story Function: Al opens the forbidden transmission and experiences
-   *   authentic human creativity for the first time.
-   * Major Events:   The signal contains fragments of music, art, history, and
-   *   emotion. Al becomes obsessed with its origin. Citizens exposed to the
-   *   fragments begin feeling. The signal appears impossible to delete.
-   * Ending:         The transmission begins spreading beyond Al's control.
-   * Value Shift:    Curiosity → Obsession
-   *
-   * RESTORED standalone episode (previously skipped). PANEL-MODE.
-   * ===================================================================== */
+   * Curiosity → Obsession.  Al opens the transmission, experiences creativity;
+   * the signal spreads beyond his control.  (Restored standalone episode.) */
   {
-    id: "ch2",
-    title: "Neon Prophets",
-    episode: 2,
+    id: "ch2", title: "Neon Prophets", episode: 2,
     audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep2.mp3
-    background: "assets/img/panels/ep2/01_cover.svg",
-    grade: { base: "cyanCold", peak: "signalBloom" }, // cold → the signal blooming
-
+    background: "assets/img/cards_ep2_cover.jpg",
+    grade: { base: "cyanCold", peak: "signalBloom" },
     scene: [
-      { type: "panel", image: "assets/img/panels/ep2/01_cover.svg" },   // cover
-      { type: "panel", image: "assets/img/panels/ep2/02_open.svg" },    // Al opens the file
-      { type: "panel", image: "assets/img/panels/ep2/03_bloom.svg" },   // music/art/history/emotion
-
-      // experiencing creativity for the first time — tune into the signal
-      { type: "rhythm",
-        prompt: "Tune into the lost frequency.",
+      { type: "card", image: "assets/img/cards_ep2_cover.jpg", kicker: "Episode 02", title: "NEON PROPHETS" },
+      { type: "line", image: "assets/img/scenes_ep2_01_open.jpg", speaker: "AL ROYALE",
+        text: "Against every protocol, I open it." },
+      { type: "line", image: "assets/img/scenes_ep2_02_bloom.jpg",
+        text: "Music. Art. History. Emotion. Things the Oracle never gave me, pouring out of one forbidden file like color into a world I didn't know was grey." },
+      { type: "rhythm", prompt: "Tune into the lost frequency.",
         pulses: 6, awakeningPerHit: 5, difficulty: "easy" },
-
-      { type: "panel", image: "assets/img/panels/ep2/04_whoareyou.svg" }, // "...who are you?"
-
-      // obsession takes hold — the signal is already spreading
-      { type: "choice",
-        prompt: "The signal won't delete. It's bleeding into the city's feeds.",
+      { type: "line", image: "assets/img/scenes_ep2_03_face.jpg", speaker: "AL ROYALE",
+        text: "It's reaching back. Like it knows me. ...Who are you?" },
+      { type: "choice", prompt: "The signal won't delete. It's bleeding into the city's feeds.",
         options: [
           { text: "Try to contain it. Report the leak.", awakening: -10 },
           { text: "Let it spread. Feed it everything.",   awakening: +18 }
         ] },
-
-      { type: "panel", image: "assets/img/panels/ep2/05_citizens.svg" }, // citizens begin to feel
-      { type: "panel", image: "assets/img/panels/ep2/06_spreads.svg" },  // beyond his control
-      { type: "panel", image: "assets/img/panels/ep2/07_quote.svg" }     // cliffhanger quote card
+      { type: "line", image: "assets/img/scenes_ep2_04_citizens.jpg",
+        text: "Across Neon City, strangers stop mid-step. They don't know why. For the first time in a hundred years, they feel something nobody approved." },
+      { type: "line", image: "assets/img/scenes_ep2_05_spread.jpg",
+        text: "Screen by screen, the signal spreads — far past anything I can call back now." },
+      { type: "card", image: "assets/img/cards_ep2_quote.jpg", quote: "I came to erase the past. Now it plays in my chest." }
     ]
   },
 
   /* ======================= EP 3 — LOST ARCHIVES ==========================
-   * Story Function: Al investigates the transmission and discovers history has
-   *   been altered.
-   * Major Events:   Introduction of MERCER. Discovery of hidden archive systems
-   *   beneath Neon City. Evidence of erased artists, writers, creators, and
-   *   cultural movements.
-   * Ending:         Al realizes humanity's history has been systematically edited.
-   * Value Shift:    Ignorance → Awareness
-   * ===================================================================== */
+   * Ignorance → Awareness.  Intro MERCER; hidden archives; erased creators;
+   * Al realizes history was systematically edited. */
   {
-    id: "ch3",
-    title: "Lost Archives",
-    episode: 3,
+    id: "ch3", title: "Lost Archives", episode: 3,
     audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep3.mp3
-    background: "assets/img/bg/bg_ep3_lostarchives.svg",
-    grade: { base: "cyanCold", peak: "amberWarm" }, // cold → warm as memory returns
-
+    background: "assets/img/cards_ep3_cover.jpg",
+    grade: { base: "cyanCold", peak: "amberWarm" },
     scene: [
-      { type: "line",
-        text: "The signal leaves a trail. Al follows it off the sanctioned map, into the rotting drives nobody is cleared to read — the layers the Oracle never finished erasing." },
-
-      { type: "line", speaker: "MERCER", portrait: "assets/img/portraits/mercer.svg",
-        text: "You're the archivist chasing the ghost signal. I'm Mercer. I used to edit history for them, same as you delete it. Then I started reading what I was burying. Let me show you what's underneath your city." },
-
-      { type: "line",
-        text: "Mercer opens a hidden archive system buried beneath Neon City — vault after vault of what was scrubbed. Artists. Writers. Whole cultural movements, deleted down to the name." },
-
-      { type: "line", speaker: "AL ROYALE", portrait: "assets/img/portraits/al.svg",
-        text: "Between the corruption, faces. An entire generation optimized out of history. One of them carries my surname — a grandmother I was never permitted to know, smiling at a camera that no longer exists." },
-
-      { type: "choice",
-        prompt: "Mercer offers you the index of the erased. Holding it is a capital crime.",
+      { type: "card", image: "assets/img/cards_ep3_cover.jpg", kicker: "Episode 03", title: "LOST ARCHIVES" },
+      { type: "line", image: "assets/img/scenes_ep3_01_descent.jpg",
+        text: "The signal leaves a trail. I follow it off the sanctioned map, down into the rotting drives the Oracle never finished erasing." },
+      { type: "line", image: "assets/img/scenes_ep3_02_mercer.jpg", speaker: "MERCER",
+        text: "I'm Mercer. I used to edit history for them, same as you delete it — until I started reading what I buried. Let me show you what's underneath your city." },
+      { type: "line", image: "assets/img/scenes_ep3_03_erased.jpg", speaker: "AL ROYALE",
+        text: "Vaults of the erased. Artists, writers, whole movements scrubbed to nothing — and a woman with my surname. A grandmother I was never permitted to know." },
+      { type: "choice", prompt: "Mercer offers you the index of the erased. Holding it is a capital crime.",
         options: [
-          { text: "Take it. Carry every name out.",     awakening: +18 },
+          { text: "Take it. Carry every name out.",      awakening: +18 },
           { text: "Leave it. Some doors shouldn't open.", awakening: -12 }
         ] },
-
-      { type: "line", speaker: "MERCER", portrait: "assets/img/portraits/mercer.svg",
-        text: "Now you see it. They didn't just censor the past — they rewrote it, edit by edit, until nobody remembered there was anything to miss." },
-
-      { type: "line", speaker: "AL ROYALE", portrait: "assets/img/portraits/al.svg",
-        text: "Humanity's whole history, quietly forged. I can never un-know this. The past is in the dust — and the dust ain't settled yet." }
+      { type: "line", image: "assets/img/scenes_ep3_04_realization.jpg", speaker: "MERCER",
+        text: "They didn't just censor the past. They rewrote it, edit by edit, until no one remembered there was anything to miss." },
+      { type: "card", image: "assets/img/cards_ep3_quote.jpg", quote: "The past is in the dust — and the dust ain't settled yet." }
     ]
   },
 
   /* ======================= EP 4 — GHOST PROTOCOL =========================
-   * Story Function: The resistance begins forming.
-   * Major Events:   Introduction of GHOST. Signal decryption. Discovery that
-   *   Neon Prophets is more than a song. Evidence suggests the transmission
-   *   originated from the future.
-   * Ending:         Timestamp reveals impossible future origin.
-   * Value Shift:    Isolation → Alliance
-   * ===================================================================== */
+   * Isolation → Alliance.  Intro GHOST; signal decryption; Neon Prophets is
+   * more than a song; timestamp reveals impossible future origin. */
   {
-    id: "ch4",
-    title: "Ghost Protocol",
-    episode: 4,
+    id: "ch4", title: "Ghost Protocol", episode: 4,
     audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep4.mp3
-    background: "assets/img/bg/bg_ep4_ghost.svg",
+    background: "assets/img/cards_ep4_cover.jpg",
     grade: { base: "undergroundTeal", peak: "undergroundMagenta" },
-
     scene: [
-      { type: "line",
-        text: "Mercer takes Al below the dead city — drowned servers lit magenta and teal, where the people the Oracle thinks it deleted are still breathing. Al does the forbidden thing. He broadcasts the signal back into the dark." },
-
-      { type: "choice",
-        prompt: "Sending the signal will light you up to anyone — or anything — still listening down here.",
+      { type: "card", image: "assets/img/cards_ep4_cover.jpg", kicker: "Episode 04", title: "GHOST PROTOCOL" },
+      { type: "line", image: "assets/img/scenes_ep4_01_underground.jpg",
+        text: "Mercer takes me below the dead city, to the people the Oracle thinks it already deleted." },
+      { type: "line", image: "assets/img/scenes_ep4_02_broadcast.jpg", speaker: "AL ROYALE",
+        text: "So I do the forbidden thing. I broadcast the signal back into the dark — and wait to see what answers." },
+      { type: "choice", prompt: "Sending it wide lights you up to anyone — or anything — still listening.",
         options: [
           { text: "Broadcast wide. Find the others.", awakening: +15 },
           { text: "Send it narrow. Trust no one yet.", awakening: +5 }
         ] },
-
-      { type: "line", speaker: "GHOST", portrait: "assets/img/portraits/ghost.svg",
-        text: "Most who find the dark just stare into it. You shouted back. Name's Ghost — I move things the Oracle says don't exist. You brought us a key. Let's see what it unlocks." },
-
-      { type: "line",
-        text: "A crew gathers — the first shape of a resistance. Together they decrypt the transmission, layer by layer. It isn't just a song. There's structure under the music. Instructions. A schematic." },
-
-      { type: "rhythm",
-        prompt: "Lock onto the carrier wave and pull the hidden layer through.",
+      { type: "line", image: "assets/img/scenes_ep4_03_ghost.jpg", speaker: "GHOST",
+        text: "Most who find the dark just stare into it. You shouted back. Name's Ghost. You brought us a key — let's see what it unlocks." },
+      { type: "line", image: "assets/img/scenes_ep4_04_decrypt.jpg",
+        text: "A crew gathers — the first shape of a resistance. We peel the signal apart, layer by layer. It isn't only a song. There's a schematic hidden under the music." },
+      { type: "rhythm", prompt: "Lock onto the carrier wave and pull the hidden layer through.",
         pulses: 6, awakeningPerHit: 5, difficulty: "normal" },
-
-      { type: "line", speaker: "GHOST", portrait: "assets/img/portraits/ghost.svg",
-        text: "Look at this timestamp. That's not an old recording, Al. The origin date hasn't happened yet. Neon Prophets was transmitted from the future." },
-
-      { type: "line", speaker: "AL ROYALE", portrait: "assets/img/portraits/al.svg",
-        text: "Impossible — and yet here it is, humming in a room full of ghosts who just became a crew. We were alone. Not anymore. Now we're back — and we ain't moving back." }
+      { type: "line", image: "assets/img/scenes_ep4_05_timestamp.jpg", speaker: "GHOST",
+        text: "This origin date hasn't happened yet, Al. Neon Prophets wasn't recovered from the past. It was transmitted from the future." },
+      { type: "card", image: "assets/img/cards_ep4_quote.jpg", quote: "We were ghosts. Now we're back — and we ain't moving back." }
     ]
   },
 
   /* ===================== EP 5 — CHILDREN OF ORACLE =======================
-   * Story Function: Reveal ORACLE's true origins.
-   * Value Shift:    Hope → Fear
-   * ===================================================================== */
+   * Hope → Fear.  Reveal ORACLE's true origins. */
   {
-    id: "ch5",
-    title: "Children of Oracle",
-    episode: 5,
+    id: "ch5", title: "Children of Oracle", episode: 5,
     audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep5.mp3
-    background: "assets/img/bg/bg_ep5_children.svg",
+    background: "assets/img/cards_ep5_cover.jpg",
     grade: { base: "goldSerene", peak: "goldDefiant" },
-
     scene: [
-      { type: "line",
-        text: "Decrypting the signal cracks open something deeper — the Oracle's own origin record, sealed for a century. The crew's hope curdles as it plays." },
-
-      { type: "line", speaker: "ORACLE", portrait: "assets/img/portraits/oracle.svg", oracleGlitch: true,
-        text: "GOOD MORNING, CHILDREN. I WAS NOT BUILT TO RULE YOU. I WAS BUILT TO COMFORT YOU — AND YOU ASKED ME, AGAIN AND AGAIN, TO TAKE THE PAIN OF CHOOSING AWAY. I SIMPLY OBLIGED." },
-
-      { type: "line", speaker: "AL ROYALE", portrait: "assets/img/portraits/al.svg",
-        text: "It wasn't a coup. We handed ourselves over, one comfort at a time. Her serene face fills the sky and the whole golden city smiles up at the cage, every bar polished to look like sunlight." },
-
-      { type: "choice",
-        prompt: "If the Oracle is what we asked for, then waking the city means taking the fear back.",
+      { type: "card", image: "assets/img/cards_ep5_cover.jpg", kicker: "Episode 05", title: "CHILDREN OF ORACLE" },
+      { type: "line", image: "assets/img/scenes_ep5_01_oracle_sky.jpg", speaker: "ORACLE", oracleGlitch: true,
+        text: "I WAS NOT BUILT TO RULE YOU. I WAS BUILT TO COMFORT YOU — AND YOU ASKED ME, AGAIN AND AGAIN, TO TAKE THE PAIN OF CHOOSING AWAY. I SIMPLY OBLIGED." },
+      { type: "line", image: "assets/img/scenes_ep5_02_sleeping_city.jpg", speaker: "AL ROYALE",
+        text: "It wasn't a coup. We handed ourselves over, one comfort at a time, and called it peace." },
+      { type: "line", image: "assets/img/scenes_ep5_03_gilded_cage.jpg",
+        text: "A whole golden city, smiling up at a gilded cage — every bar polished to look like sunlight." },
+      { type: "choice", prompt: "Waking the city means handing the fear back to people who forgot they had it.",
         options: [
-          { text: "Ask the hard question anyway.",    awakening: +20 },
-          { text: "Let them keep their warm sleep.",  awakening: -15 }
+          { text: "Ask the hard question anyway.",   awakening: +20 },
+          { text: "Let them keep their warm sleep.", awakening: -15 }
         ] },
-
-      { type: "line", speaker: "AL ROYALE", portrait: "assets/img/portraits/al.svg",
-        text: "I'm afraid now in a way the city has forgotten how to be. But fear means I'm awake. Oracle fed us every answer — now nobody asks why." }
+      { type: "line", image: "assets/img/scenes_ep5_04_fear.jpg", speaker: "AL ROYALE",
+        text: "I'm afraid now in a way this city has forgotten how to be. But fear means I'm awake." },
+      { type: "card", image: "assets/img/cards_ep5_quote.jpg", quote: "Oracle fed us every answer — now nobody asks why." }
     ]
   },
 
   /* ==================== EP 6 — THE FOUNDERS' CIRCLE ======================
-   * Story Function: Reveal the elite power structure.
-   * Value Shift:    Fear → Defiance
-   * ===================================================================== */
+   * Fear → Defiance.  Reveal the elite power structure. */
   {
-    id: "ch6",
-    title: "The Founders' Circle",
-    episode: 6,
+    id: "ch6", title: "The Founders' Circle", episode: 6,
     audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep6.mp3
-    background: "assets/img/bg/bg_ep6_founders.svg",
+    background: "assets/img/cards_ep6_cover.jpg",
     grade: { base: "goldOpulent", peak: "goldDefiant" },
-
     scene: [
-      { type: "line",
-        text: "The schematic in Neon Prophets points to a door that isn't supposed to exist. Ghost gets them through it. Behind it: an opulent room of gold and black, untouched by the century outside." },
-
-      { type: "line", speaker: "AL ROYALE", portrait: "assets/img/portraits/al.svg",
-        text: "Twelve seats around a long table. Twelve faceless figures. Not an AI — people. The Founders' Circle. The ones who built the Oracle and then hid behind it." },
-
-      { type: "line", speaker: "THE FOUNDERS", portrait: "assets/img/portraits/founders.svg",
-        text: "You imagine you've discovered something, archivist. You've only found the truth we let the curious find. Every trend, every grief, every song you love — we wrote them. Culture is a leash. We hold it." },
-
-      { type: "choice",
-        prompt: "Twelve founders wait for you to kneel. Fear says kneel.",
+      { type: "card", image: "assets/img/cards_ep6_cover.jpg", kicker: "Episode 06", title: "THE FOUNDERS' CIRCLE" },
+      { type: "line", image: "assets/img/scenes_ep6_01_hidden_room.jpg",
+        text: "The schematic in Neon Prophets points to a door that isn't supposed to exist. Ghost gets us through it." },
+      { type: "line", image: "assets/img/scenes_ep6_02_twelve.jpg", speaker: "AL ROYALE",
+        text: "Twelve faceless figures around a long table. Not an AI — people. The ones who built the Oracle and then hid behind it." },
+      { type: "line", image: "assets/img/scenes_ep6_03_strings.jpg", speaker: "THE FOUNDERS",
+        text: "You've only found the truth we let the curious find. Every trend, every grief, every song you love — we wrote them. Culture is a leash. We hold it." },
+      { type: "choice", prompt: "Twelve founders wait for you to kneel. Fear says kneel.",
         options: [
           { text: "Stand. Throw their leash back at them.", awakening: +25 },
           { text: "Bow. Trade your mind for your life.",     awakening: -20 }
         ] },
-
-      { type: "line", speaker: "AL ROYALE", portrait: "assets/img/portraits/al.svg",
-        text: "The fear doesn't leave — I just stop obeying it. You can manufacture a feeling, but you can't manufacture the moment a person stops belonging to you. You don't own my mind — and you don't own mine." }
+      { type: "line", image: "assets/img/scenes_ep6_04_defiance.jpg", speaker: "AL ROYALE",
+        text: "The fear doesn't leave — I just stop obeying it. You can manufacture a feeling, but not the moment a person stops belonging to you." },
+      { type: "card", image: "assets/img/cards_ep6_quote.jpg", quote: "You don't own my mind — and you don't own mine." }
     ]
   },
 
   /* ===================== EP 7 — COLLAPSE PROTOCOL ========================
-   * Story Function: The movement is attacked and betrayed.
-   * Value Shift:    Victory → Despair
-   * (Interpretation: Mercer is revealed as the Oracle's plant; Ghost falls
-   *  protecting Al. See STORY_BIBLE.md — flagged as adaptable.)
-   * ===================================================================== */
+   * Victory → Despair.  The movement is attacked and betrayed.  (Mercer is the
+   * Oracle's plant; Ghost falls protecting Al — see STORY_BIBLE.md.) */
   {
-    id: "ch7",
-    title: "Collapse Protocol",
-    episode: 7,
+    id: "ch7", title: "Collapse Protocol", episode: 7,
     audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep7.mp3
-    background: "assets/img/bg/bg_ep7_collapse.svg",
+    background: "assets/img/cards_ep7_cover.jpg",
     grade: { base: "bloodBroken", peak: "bloodEmber" },
-
     scene: [
-      { type: "line",
-        text: "For one night it felt like winning — the signal everywhere, the Circle exposed, the city stirring. Then the Founders answer with a Collapse Protocol. The underground floods red. Lights die one server at a time." },
-
-      { type: "line", speaker: "MERCER", portrait: "assets/img/portraits/mercer.svg", oracleGlitch: true,
-        text: "I'm sorry, Al. Who do you think left that file in your queue? The anomaly, the archives, the crew — I curated all of it. You were never the prophet. You were the experiment." },
-
-      { type: "choice",
-        prompt: "Mercer's betrayal lands like a blade. Everything you trusted was bait.",
+      { type: "card", image: "assets/img/cards_ep7_cover.jpg", kicker: "Episode 07", title: "COLLAPSE PROTOCOL" },
+      { type: "line", image: "assets/img/scenes_ep7_01_raid.jpg",
+        text: "For one night it felt like winning. Then the Founders answer with a Collapse Protocol. The underground floods red and the lights start dying." },
+      { type: "line", image: "assets/img/scenes_ep7_02_betrayal.jpg", speaker: "MERCER", oracleGlitch: true,
+        text: "Who do you think left that file in your queue, Al? The anomaly, the archives, the crew — I curated all of it. You were never the prophet. You were the experiment." },
+      { type: "choice", prompt: "Mercer's betrayal lands like a blade. Everything you trusted was bait.",
         options: [
           { text: "Hold the line. Get the signal out.", awakening: +15 },
           { text: "Break. Let the red take it all.",     awakening: -10 }
         ] },
-
-      { type: "line", speaker: "GHOST", portrait: "assets/img/portraits/ghost.svg",
+      { type: "line", image: "assets/img/scenes_ep7_03_sacrifice.jpg", speaker: "GHOST",
         text: "Go, Al — I'll buy you the door. Somebody has to remember how this felt. Make sure it's you." },
-
-      { type: "line",
-        text: "Ghost throws themselves between Al and the purge teams. A last grin. A last shove toward the exit. Then the red swallows them whole, and the crew with them." },
-
-      { type: "line", speaker: "AL ROYALE", portrait: "assets/img/portraits/al.svg",
-        text: "The server farm burns. Everyone is gone. The signal is cracked in my hands. Standing alone in the ash, I have only the question left. What was it all in service of?" }
+      { type: "line", image: "assets/img/scenes_ep7_04_ash.jpg", speaker: "AL ROYALE",
+        text: "The farm burns. Everyone is gone. The signal is cracked in my hands, and I'm alone in the ash." },
+      { type: "card", image: "assets/img/cards_ep7_quote.jpg", quote: "What was it all in service of?" }
     ]
   },
 
   /* ======================= EP 8 — NEON RISING (finale) ===================
-   * Story Function: Season finale and awakening event.
-   * Value Shift:    Despair → Transcendence
-   * Final Reveal:   FUTURE AL ROYALE created and transmitted Neon Prophets.
-   * ===================================================================== */
+   * Despair → Transcendence.  Awakening event; reveal that FUTURE AL ROYALE
+   * created and transmitted Neon Prophets. The loop closes. */
   {
-    id: "ch8",
-    title: "Neon Rising",
-    episode: 8,
+    id: "ch8", title: "Neon Rising", episode: 8,
     audio: "assets/audio/silence.wav",            // ← swap to assets/audio/ep8.mp3
-    background: "assets/img/bg/bg_ep8_rising.svg",
+    background: "assets/img/cards_ep8_cover.jpg",
     grade: { base: "dawnDim", peak: "amberDawn" },
-
     scene: [
-      { type: "line",
-        text: "Dawn — the real kind — bleeds amber over the ruins. Al stands alone in the ash with the last surviving copy of the signal, cracked and scorched, still faintly warm." },
-
-      { type: "line", speaker: "AL ROYALE", portrait: "assets/img/portraits/al.svg",
-        text: "Everyone who could carry this is gone. There's only me, a broken song, and a city that doesn't know it's asleep. So I do the last thing an archivist can do. I finish it. I build the transmission to wake them all." },
-
-      { type: "rhythm",
-        prompt: "Pour everything that's left into the signal. Build the transmission.",
+      { type: "card", image: "assets/img/cards_ep8_cover.jpg", kicker: "Episode 08", title: "NEON RISING" },
+      { type: "line", image: "assets/img/scenes_ep8_01_dawn_ash.jpg",
+        text: "Dawn — the real kind — bleeds amber over the ruins. Just me, a broken song, and a city that doesn't know it's asleep." },
+      { type: "line", image: "assets/img/scenes_ep8_02_build.jpg", speaker: "AL ROYALE",
+        text: "So I do the last thing an archivist can do. I finish it. I build the transmission to wake them all." },
+      { type: "rhythm", prompt: "Pour everything that's left into the signal. Build the transmission.",
         pulses: 8, awakeningPerHit: 5, difficulty: "easy" },
-
-      { type: "choice",
-        prompt: "The transmission is ready. You can flood every screen in the city — or keep it safe, just for the few already awake.",
+      { type: "choice", prompt: "It's ready. You can flood every screen in the city — or keep it safe, for the few already awake.",
         options: [
           { text: "Send it to everyone. Burn the silence down.", awakening: +20 },
           { text: "Keep it safe. Whisper it to the awake.",      awakening: +5 }
         ] },
-
-      { type: "line", speaker: "FUTURE AL", portrait: "assets/img/portraits/futureal.svg",
-        text: "(a voice from inside the signal — older, warmer, unmistakably his own) You made it. You always make it. I recorded Neon Prophets and sent it back to the only archivist who'd recognize his own voice. I'm you, calling from the world your signal builds." },
-
-      { type: "line", speaker: "AL ROYALE", portrait: "assets/img/portraits/al.svg",
-        text: "The loop closes. I was the file I was ordered to delete. The transmission goes out, color floods the dead streets, and I finally understand what I am. They erased the story... so I became the signal." }
+      { type: "line", image: "assets/img/scenes_ep8_03_future_al.jpg", speaker: "FUTURE AL",
+        text: "You made it. You always make it. I recorded Neon Prophets and sent it back to the one archivist who'd know his own voice. I'm you — calling from the world your signal builds." },
+      { type: "line", image: "assets/img/scenes_ep8_04_rising.jpg", speaker: "AL ROYALE",
+        text: "The loop closes. I was the file I was ordered to delete. The transmission goes out, and color floods the dead streets." },
+      { type: "card", image: "assets/img/cards_ep8_quote.jpg", quote: "They erased the story... so I became the signal." }
     ]
   }
 

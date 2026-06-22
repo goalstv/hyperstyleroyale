@@ -70,7 +70,7 @@ function onStageTap(e) {
   if (e.target.closest(".hud, .choices, .rhythm, button, input")) return;
   const beat = scene[beatIndex];
   if (!beat) return;
-  if (beat.type === "panel") { nextBeat(); return; }   // panels: one tap advances
+  if (beat.type === "panel" || beat.type === "card") { nextBeat(); return; } // one tap advances
   if (beat.type !== "line") return;                    // choices/rhythm: own taps
   if (typing) { finishTyping(); return; }               // first tap completes reveal
   nextBeat();                                            // second tap advances
@@ -94,11 +94,27 @@ function renderBeat() {
   resetStage();
 
   if (beat.type === "panel")       return renderPanel(beat);
+  if (beat.type === "card")        return renderCard(beat);
   if (beat.type === "line")        return renderLine(beat);
   if (beat.type === "choice")      return renderChoice(beat);
   if (beat.type === "rhythm")      return renderRhythm(beat);
   // Unknown beat type: skip gracefully.
   nextBeat();
+}
+
+/* --- card: a title/quote card — engine type over textless card art -------- */
+function renderCard(beat) {
+  if (beat.oracleGlitch) triggerGlitch();
+  ui.stage.classList.add("stage--panel");   // no readability gradient
+  showBackground(beat.image);
+  ui.cardKicker.textContent = beat.kicker || "";
+  ui.cardTitle.textContent = beat.title || "";
+  ui.cardQuote.textContent = beat.quote || "";
+  ui.cardKicker.style.display = beat.kicker ? "block" : "none";
+  ui.cardTitle.style.display = beat.title ? "block" : "none";
+  ui.cardQuote.style.display = beat.quote ? "block" : "none";
+  ui.card.classList.add("card--visible");
+  ui.panelHint.classList.add("hint--visible");
 }
 
 /* --- panel: a full-bleed carousel slide with its text baked into the art --- */
@@ -219,6 +235,7 @@ function resetStage() {
   ui.rhythmWrap.classList.remove("rhythm--visible");
   ui.hint.classList.remove("hint--visible");
   ui.panelHint.classList.remove("hint--visible");
+  ui.card.classList.remove("card--visible");
   ui.stage.classList.remove("stage--panel");
 }
 

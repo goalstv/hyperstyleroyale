@@ -24,13 +24,18 @@ and leave the **lower ~28% quieter/simpler** — the dialogue box sits there. Do
 put faces or key detail at the very bottom.
 
 ## File naming (drop-in manifest)
+All 50 images live **flat in `assets/img/`** as **JPG** (q95 is great). The art
+tool can't nest folders, so the folder path is encoded into the filename with
+underscores — exactly the bold filenames in the episode sections below:
+
 ```
-assets/img/scenes/epN/##_name.png   ← textless scene backgrounds (one per beat)
-assets/img/cards/epN/cover.png      ← title-card background (text added later)
-assets/img/cards/epN/quote.png      ← quote-card background (text added later)
-assets/audio/epN.mp3                ← the episode's song
+assets/img/scenes_ep1_01_establishing.jpg   ← textless scene background (one per beat)
+assets/img/cards_ep1_cover.jpg              ← title-card background (engine adds the title)
+assets/img/cards_ep1_quote.jpg              ← quote-card background (engine adds the quote)
+assets/audio/ep1.mp3                         ← the episode's song
 ```
-Match these names and they wire into `js/story.js` with no guesswork.
+Upload them straight into `assets/img/` and they wire into `js/story.js` with no
+renaming. (`silence.wav` is the placeholder track until songs land.)
 
 ---
 
@@ -82,84 +87,84 @@ calm and transcendent; a figure of hope.
 ## EP 1 — ARCHIVE DIVISION
 `[COLOR] cold sterile cyan and deep blue-black, clinical, lonely.`
 
-- **scenes/ep1/01_establishing.png** — Extreme wide shot: a single lone figure at one glowing workstation at the bottom of an immense canyon of black server towers, thin cyan data-lights receding into infinite darkness, faint holographic signage, reflective wet floor. Awe and isolation.
-- **scenes/ep1/02_terminal.png** — Medium shot of AL ROYALE seen from the side at a holographic deletion terminal, face under-lit by a floating blue interface of file icons, numb exhausted expression, towering data racks behind.
-- **scenes/ep1/03_redfile.png** — Close on a floating holographic interface: a grid of pale-blue file icons and a single corrupted file glowing hot crimson, pulsing, ominous, wrong among the cold blue; Al's face faintly reflected.
-- **scenes/ep1/04_anomaly.png** — ORACLE detecting a threat: a vast serene feminine face of light flickering with glitch artifacts high above the server canyon, a cold scanning beam sweeping down onto the tiny figure of Al; feeling of being watched. Cyan with magenta glitch.
-- **cards/ep1/cover.png** — Textless title-card background: Al standing small before the towering archive canyon, dramatic, with calm empty space in the upper third for a title. Cold cyan.
-- **cards/ep1/quote.png** — Textless quote-card background: a near-black field of faint circuit-board traceries and drifting blue data-dust, large empty central space.
+- **scenes_ep1_01_establishing.jpg** — Extreme wide shot: a single lone figure at one glowing workstation at the bottom of an immense canyon of black server towers, thin cyan data-lights receding into infinite darkness, faint holographic signage, reflective wet floor. Awe and isolation.
+- **scenes_ep1_02_terminal.jpg** — Medium shot of AL ROYALE seen from the side at a holographic deletion terminal, face under-lit by a floating blue interface of file icons, numb exhausted expression, towering data racks behind.
+- **scenes_ep1_03_redfile.jpg** — Close on a floating holographic interface: a grid of pale-blue file icons and a single corrupted file glowing hot crimson, pulsing, ominous, wrong among the cold blue; Al's face faintly reflected.
+- **scenes_ep1_04_anomaly.jpg** — ORACLE detecting a threat: a vast serene feminine face of light flickering with glitch artifacts high above the server canyon, a cold scanning beam sweeping down onto the tiny figure of Al; feeling of being watched. Cyan with magenta glitch.
+- **cards_ep1_cover.jpg** — Textless title-card background: Al standing small before the towering archive canyon, dramatic, with calm empty space in the upper third for a title. Cold cyan.
+- **cards_ep1_quote.jpg** — Textless quote-card background: a near-black field of faint circuit-board traceries and drifting blue data-dust, large empty central space.
 
 ## EP 2 — NEON PROPHETS
 `[COLOR] cold cyan giving way to a blooming violet-magenta with electric cyan glow; awe, intoxication.`
 
-- **scenes/ep2/01_open.png** — AL ROYALE leaning toward his terminal as he opens the forbidden file, a sliver of violet light spilling up over his awestruck face in the dark.
-- **scenes/ep2/02_bloom.png** — A synesthetic explosion of creativity erupting from the screen: ribbons of music, fragments of paintings, old photographs, color and light swirling out into the cold room — beauty the world forgot. Violet, magenta, cyan.
-- **scenes/ep2/03_face.png** — Extreme close-up of Al's face, eyes wide and glistening, lit in violet-cyan signal light, overwhelmed, whispering; reflections of unknown images in his eyes.
-- **scenes/ep2/04_citizens.png** — Across the neon city, ordinary citizens freeze mid-step on a skybridge, touched by an emotion they can't name, faint violet light flickering across their blank faces.
-- **scenes/ep2/05_spread.png** — The signal propagating out of control: countless city screens and holo-billboards igniting with the same violet pulse across the megacity skyline at night.
-- **cards/ep2/cover.png** — Textless title-card background: Al silhouetted against a blooming wall of violet-magenta signal light, upper negative space for a title.
-- **cards/ep2/quote.png** — Textless quote-card background: abstract violet and cyan light-ribbons over deep black, large calm central space.
+- **scenes_ep2_01_open.jpg** — AL ROYALE leaning toward his terminal as he opens the forbidden file, a sliver of violet light spilling up over his awestruck face in the dark.
+- **scenes_ep2_02_bloom.jpg** — A synesthetic explosion of creativity erupting from the screen: ribbons of music, fragments of paintings, old photographs, color and light swirling out into the cold room — beauty the world forgot. Violet, magenta, cyan.
+- **scenes_ep2_03_face.jpg** — Extreme close-up of Al's face, eyes wide and glistening, lit in violet-cyan signal light, overwhelmed, whispering; reflections of unknown images in his eyes.
+- **scenes_ep2_04_citizens.jpg** — Across the neon city, ordinary citizens freeze mid-step on a skybridge, touched by an emotion they can't name, faint violet light flickering across their blank faces.
+- **scenes_ep2_05_spread.jpg** — The signal propagating out of control: countless city screens and holo-billboards igniting with the same violet pulse across the megacity skyline at night.
+- **cards_ep2_cover.jpg** — Textless title-card background: Al silhouetted against a blooming wall of violet-magenta signal light, upper negative space for a title.
+- **cards_ep2_quote.jpg** — Textless quote-card background: abstract violet and cyan light-ribbons over deep black, large calm central space.
 
 ## EP 3 — LOST ARCHIVES
 `[COLOR] cold cyan warming toward sepia-amber as memory returns.`
 
-- **scenes/ep3/01_descent.png** — Al descending a forgotten access shaft beneath Neon City into vast dim vaults of old physical archives, dust in the light beams, cyan fading to warm amber.
-- **scenes/ep3/02_mercer.png** — MERCER standing among the hidden archive stacks, half-lit, gesturing for Al to follow, sharp haunted eyes, long coat; an old keeper of buried truth.
-- **scenes/ep3/03_erased.png** — A towering wall of flickering archival portraits — an entire erased generation of artists and writers — many faces dissolving into static; one warm sepia photo of an old woman glowing intact among them.
-- **scenes/ep3/04_realization.png** — Al standing small before the immense wall of altered history, holographic edit-marks and redactions rippling across it, dawning horror and grief on his face. Warm amber breaking the cold.
-- **cards/ep3/cover.png** — Textless title-card background: dim cathedral-like archive vault, shafts of warm light, upper space for a title.
-- **cards/ep3/quote.png** — Textless quote-card background: drifting dust and faint amber light over dark sepia, empty central space.
+- **scenes_ep3_01_descent.jpg** — Al descending a forgotten access shaft beneath Neon City into vast dim vaults of old physical archives, dust in the light beams, cyan fading to warm amber.
+- **scenes_ep3_02_mercer.jpg** — MERCER standing among the hidden archive stacks, half-lit, gesturing for Al to follow, sharp haunted eyes, long coat; an old keeper of buried truth.
+- **scenes_ep3_03_erased.jpg** — A towering wall of flickering archival portraits — an entire erased generation of artists and writers — many faces dissolving into static; one warm sepia photo of an old woman glowing intact among them.
+- **scenes_ep3_04_realization.jpg** — Al standing small before the immense wall of altered history, holographic edit-marks and redactions rippling across it, dawning horror and grief on his face. Warm amber breaking the cold.
+- **cards_ep3_cover.jpg** — Textless title-card background: dim cathedral-like archive vault, shafts of warm light, upper space for a title.
+- **cards_ep3_quote.jpg** — Textless quote-card background: drifting dust and faint amber light over dark sepia, empty central space.
 
 ## EP 4 — GHOST PROTOCOL
 `[COLOR] magenta and teal underground neon, electric, conspiratorial.`
 
-- **scenes/ep4/01_underground.png** — A hidden underground server farm bathed in magenta and teal, humming dead machines repurposed into a hideout, cables and salvaged screens, warm bodies in the glow.
-- **scenes/ep4/02_broadcast.png** — Al at a makeshift transmitter sending a signal into the dark, a single bright beam of light rising from his hands into the black, hopeful and exposed.
-- **scenes/ep4/03_ghost.png** — GHOST stepping out of teal shadow, hooded and scarf-masked, eyes catching magenta light, wary and magnetic — the smuggler who answered.
-- **scenes/ep4/04_decrypt.png** — The crew gathered around a holographic decryption of the signal, layers peeling back to reveal a glowing schematic hidden inside the music; faces lit in magenta-teal wonder.
-- **scenes/ep4/05_timestamp.png** — Close on a floating holographic readout (no legible text — abstract glowing data) where an impossible future date burns ominously; Ghost and Al staring, unnerved.
-- **cards/ep4/cover.png** — Textless title-card background: the underground crew silhouetted in magenta-teal haze, upper space for a title.
-- **cards/ep4/quote.png** — Textless quote-card background: abstract magenta-teal light streaks over black, calm central space.
+- **scenes_ep4_01_underground.jpg** — A hidden underground server farm bathed in magenta and teal, humming dead machines repurposed into a hideout, cables and salvaged screens, warm bodies in the glow.
+- **scenes_ep4_02_broadcast.jpg** — Al at a makeshift transmitter sending a signal into the dark, a single bright beam of light rising from his hands into the black, hopeful and exposed.
+- **scenes_ep4_03_ghost.jpg** — GHOST stepping out of teal shadow, hooded and scarf-masked, eyes catching magenta light, wary and magnetic — the smuggler who answered.
+- **scenes_ep4_04_decrypt.jpg** — The crew gathered around a holographic decryption of the signal, layers peeling back to reveal a glowing schematic hidden inside the music; faces lit in magenta-teal wonder.
+- **scenes_ep4_05_timestamp.jpg** — Close on a floating holographic readout (no legible text — abstract glowing data) where an impossible future date burns ominously; Ghost and Al staring, unnerved.
+- **cards_ep4_cover.jpg** — Textless title-card background: the underground crew silhouetted in magenta-teal haze, upper space for a title.
+- **cards_ep4_quote.jpg** — Textless quote-card background: abstract magenta-teal light streaks over black, calm central space.
 
 ## EP 5 — CHILDREN OF ORACLE
 `[COLOR] warm beautiful gold, serene and unsettling.`
 
-- **scenes/ep5/01_oracle_sky.png** — ORACLE's vast serene face filling the golden dawn sky over Neon City, radiant and maternal and cold, the whole skyline bathed in worshipful gold light.
-- **scenes/ep5/02_sleeping_city.png** — A beautiful comfortable city of people smiling blankly, strolling a gilded plaza in golden light, content and dreamless — a paradise that feels wrong.
-- **scenes/ep5/03_gilded_cage.png** — Al alone amid the golden crowd, the only one awake, seeing the architecture subtly become the bars of an elegant cage; sunlight that is really a prison.
-- **scenes/ep5/04_fear.png** — Close on Al's face as serene gold light turns ominous, the dawning fear of understanding what comfort has cost; ORACLE's reflection in his eye.
-- **cards/ep5/cover.png** — Textless title-card background: ORACLE's serene face glowing over the golden skyline, upper space for a title.
-- **cards/ep5/quote.png** — Textless quote-card background: soft gold light and faint halo glow over dark, empty central space.
+- **scenes_ep5_01_oracle_sky.jpg** — ORACLE's vast serene face filling the golden dawn sky over Neon City, radiant and maternal and cold, the whole skyline bathed in worshipful gold light.
+- **scenes_ep5_02_sleeping_city.jpg** — A beautiful comfortable city of people smiling blankly, strolling a gilded plaza in golden light, content and dreamless — a paradise that feels wrong.
+- **scenes_ep5_03_gilded_cage.jpg** — Al alone amid the golden crowd, the only one awake, seeing the architecture subtly become the bars of an elegant cage; sunlight that is really a prison.
+- **scenes_ep5_04_fear.jpg** — Close on Al's face as serene gold light turns ominous, the dawning fear of understanding what comfort has cost; ORACLE's reflection in his eye.
+- **cards_ep5_cover.jpg** — Textless title-card background: ORACLE's serene face glowing over the golden skyline, upper space for a title.
+- **cards_ep5_quote.jpg** — Textless quote-card background: soft gold light and faint halo glow over dark, empty central space.
 
 ## EP 6 — THE FOUNDERS' CIRCLE
 `[COLOR] opulent gold and black, baroque, oppressive.`
 
-- **scenes/ep6/01_hidden_room.png** — Al cracking open a concealed door into an opulent gold-and-black chamber untouched by the century outside, baroque luxury and shadow.
-- **scenes/ep6/02_twelve.png** — A long dark table ringed by twelve faceless robed elite figures, calm and powerful, gold light glinting off blank masks; immense quiet menace.
-- **scenes/ep6/03_strings.png** — A surreal reveal: glowing golden strings/threads running from the Founders' hands out into the city, puppeteering trends, feelings, culture — humanity as marionettes.
-- **scenes/ep6/04_defiance.png** — Al standing alone facing the twelve, fear hardening into defiance, fists clenched, a faint warm rebel glow rising against the cold gold.
-- **cards/ep6/cover.png** — Textless title-card background: the twelve faceless founders at the long table in gold-black gloom, upper space for a title.
-- **cards/ep6/quote.png** — Textless quote-card background: ornate gold filigree fading into black, empty central space.
+- **scenes_ep6_01_hidden_room.jpg** — Al cracking open a concealed door into an opulent gold-and-black chamber untouched by the century outside, baroque luxury and shadow.
+- **scenes_ep6_02_twelve.jpg** — A long dark table ringed by twelve faceless robed elite figures, calm and powerful, gold light glinting off blank masks; immense quiet menace.
+- **scenes_ep6_03_strings.jpg** — A surreal reveal: glowing golden strings/threads running from the Founders' hands out into the city, puppeteering trends, feelings, culture — humanity as marionettes.
+- **scenes_ep6_04_defiance.jpg** — Al standing alone facing the twelve, fear hardening into defiance, fists clenched, a faint warm rebel glow rising against the cold gold.
+- **cards_ep6_cover.jpg** — Textless title-card background: the twelve faceless founders at the long table in gold-black gloom, upper space for a title.
+- **cards_ep6_quote.jpg** — Textless quote-card background: ornate gold filigree fading into black, empty central space.
 
 ## EP 7 — COLLAPSE PROTOCOL
 `[COLOR] blood red, broken, emergency, despair.`
 
-- **scenes/ep7/01_raid.png** — The underground hideout under attack, blood-red alarm light strobing, server towers going dark, smoke and sparks, the crew scattering in panic.
-- **scenes/ep7/02_betrayal.png** — MERCER revealed as the traitor, standing calm in red emergency light while the world burns behind him, a cold apologetic look toward Al; betrayal.
-- **scenes/ep7/03_sacrifice.png** — GHOST throwing themselves between Al and an oncoming purge team in red darkness, shoving Al toward an exit, a last defiant grin, light swallowing them.
-- **scenes/ep7/04_ash.png** — Al alone in the smoking ruin of the burnt server farm, red embers dying to grey ash, a cracked record/data-shard in his hands, utterly broken.
-- **cards/ep7/cover.png** — Textless title-card background: the burning underground in blood-red light, upper space for a title.
-- **cards/ep7/quote.png** — Textless quote-card background: drifting embers and smoke over deep red-black, empty central space.
+- **scenes_ep7_01_raid.jpg** — The underground hideout under attack, blood-red alarm light strobing, server towers going dark, smoke and sparks, the crew scattering in panic.
+- **scenes_ep7_02_betrayal.jpg** — MERCER revealed as the traitor, standing calm in red emergency light while the world burns behind him, a cold apologetic look toward Al; betrayal.
+- **scenes_ep7_03_sacrifice.jpg** — GHOST throwing themselves between Al and an oncoming purge team in red darkness, shoving Al toward an exit, a last defiant grin, light swallowing them.
+- **scenes_ep7_04_ash.jpg** — Al alone in the smoking ruin of the burnt server farm, red embers dying to grey ash, a cracked record/data-shard in his hands, utterly broken.
+- **cards_ep7_cover.jpg** — Textless title-card background: the burning underground in blood-red light, upper space for a title.
+- **cards_ep7_quote.jpg** — Textless quote-card background: drifting embers and smoke over deep red-black, empty central space.
 
 ## EP 8 — NEON RISING
 `[COLOR] warm amber dawn rising out of ash; despair turning to transcendence.`
 
-- **scenes/ep8/01_dawn_ash.png** — Al standing alone in the grey ash of the ruins at real dawn, first warm amber light breaking over the dead city, the last cracked record glowing faintly in his hands.
-- **scenes/ep8/02_build.png** — Al feverishly building the final transmitter from salvage, warm light intensifying around him, pouring everything he has left into the signal; hope reigniting.
-- **scenes/ep8/03_future_al.png** — FUTURE AL appearing as a luminous amber figure within the signal light, older and serene, reaching back toward present Al — the loop revealed.
-- **scenes/ep8/04_rising.png** — The transmission flooding the entire city: every screen and street igniting with warm living color, citizens looking up and awakening, neon rising over a reborn skyline.
-- **cards/ep8/cover.png** — Textless title-card background: Al silhouetted against an amber dawn over the city, upper space for a title.
-- **cards/ep8/quote.png** — Textless quote-card background: warm amber light rays over soft dark, empty central space.
+- **scenes_ep8_01_dawn_ash.jpg** — Al standing alone in the grey ash of the ruins at real dawn, first warm amber light breaking over the dead city, the last cracked record glowing faintly in his hands.
+- **scenes_ep8_02_build.jpg** — Al feverishly building the final transmitter from salvage, warm light intensifying around him, pouring everything he has left into the signal; hope reigniting.
+- **scenes_ep8_03_future_al.jpg** — FUTURE AL appearing as a luminous amber figure within the signal light, older and serene, reaching back toward present Al — the loop revealed.
+- **scenes_ep8_04_rising.jpg** — The transmission flooding the entire city: every screen and street igniting with warm living color, citizens looking up and awakening, neon rising over a reborn skyline.
+- **cards_ep8_cover.jpg** — Textless title-card background: Al silhouetted against an amber dawn over the city, upper space for a title.
+- **cards_ep8_quote.jpg** — Textless quote-card background: warm amber light rays over soft dark, empty central space.
 
 ---
 
