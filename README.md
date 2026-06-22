@@ -7,22 +7,23 @@ playable companion to the concept album and animated series.
 > The Syndicate. You play **AL ROYALE**, an archivist who deletes old culture for
 > the regime — until a forbidden transmission begins to wake him up.
 
-This repo is a **playable v1 prototype**: the full **7-chapter** story arc
-(mapping the 8 episodes — Ep 3 & 4 share the "Ghost Protocol" chapter)
-demonstrating scene flow, branching choices, the persistent **awakening meter**,
-the **per-episode color grade + cold→warm meter shift**, and the
-**"tune into the frequency"** rhythm mini-mechanic. Everything uses placeholder
-art/audio you can swap for the real thing without touching engine code.
+This repo is a **playable v1 prototype**: the full **8-chapter** Season 1 arc
+(one chapter per episode) demonstrating scene flow, branching choices, the
+persistent **awakening meter**, the **per-episode color grade + cold→warm meter
+shift**, and the **"tune into the frequency"** rhythm mini-mechanic. Everything
+uses placeholder art/audio you can swap for the real thing without touching
+engine code. The canonical timeline lives in [`STORY_BIBLE.md`](STORY_BIBLE.md).
 
-| Ch | Episode | Color identity | Closing line |
-|----|---------|----------------|--------------|
-| 1 | Archive Division | cold cyan → first spark | *"every file got a funeral, every dream got a number"* |
-| 2 | Lost Archives | cold → warm transition | *"the past is in the dust and the dust ain't settled yet"* |
-| 3 | Ghost Protocol (Ep 3–4) | magenta + teal underground | *"now we're back, and we ain't moving back"* |
-| 4 | Children of Oracle | gold, beautiful-unsettling | *"Oracle fed us every answer, now nobody asks why"* |
-| 5 | The Founders' Circle | opulent gold + black | *"you don't own my mind, and you don't own mine"* |
-| 6 | Collapse Protocol | blood red, broken | *"what was it all in service of"* |
-| 7 | Neon Rising (finale) | warm amber dawn | *"they erased the story... so I became the signal"* |
+| Ch | Episode | Color identity | Value shift |
+|----|---------|----------------|-------------|
+| 1 | Archive Division | cold cyan | Comfort → Unease |
+| 2 | **Neon Prophets** | the signal blooming (violet + cyan) | Curiosity → Obsession |
+| 3 | Lost Archives | cold → warm | Ignorance → Awareness |
+| 4 | Ghost Protocol | magenta + teal underground | Isolation → Alliance |
+| 5 | Children of Oracle | gold, beautiful-unsettling | Hope → Fear |
+| 6 | The Founders' Circle | opulent gold + black | Fear → Defiance |
+| 7 | Collapse Protocol | blood red, broken | Victory → Despair |
+| 8 | Neon Rising (finale) | warm amber dawn | Despair → Transcendence |
 
 ---
 

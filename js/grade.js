@@ -29,6 +29,10 @@ export const PALETTES = {
   // Ep2 peak / general warm — amber, alive
   amberWarm:  { "--accent":[245,158,11], "--accent-soft":[180,83,9],    "--bg-0":[12,7,3],   "--bg-1":[28,18,8],  "--text":[245,234,214], "--glow":[251,191,36] },
 
+  // Ep2 — Neon Prophets: the forbidden signal blooming with creativity
+  // (violet/magenta accent with an electric cyan glow). Curiosity → Obsession.
+  signalBloom: { "--accent":[199,125,255], "--accent-soft":[120,60,180], "--bg-0":[8,5,16], "--bg-1":[22,12,40], "--text":[235,225,250], "--glow":[120,220,255] },
+
   // Ep3-4 — Ghost Protocol underground: teal base, magenta peak
   undergroundTeal:    { "--accent":[45,212,191], "--accent-soft":[15,118,110], "--bg-0":[4,10,12], "--bg-1":[10,26,28], "--text":[200,235,230], "--glow":[45,212,191] },
   undergroundMagenta: { "--accent":[236,72,180], "--accent-soft":[120,20,90],  "--bg-0":[12,4,12], "--bg-1":[26,8,26],  "--text":[240,215,235], "--glow":[236,72,180] },
