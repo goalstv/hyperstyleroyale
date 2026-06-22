@@ -10,7 +10,7 @@
  * DOM refs and lifecycle hooks; the engine just runs whatever chapter it's given.
  * ========================================================================= */
 
-import { chapters } from "./story.js";
+import { chapters, meta } from "./story.js";
 import { state, adjustAwakening, completeChapter } from "./state.js";
 import { applyGrade } from "./grade.js";
 import { playTrack } from "./audio.js";
@@ -45,6 +45,11 @@ export function startChapter(index) {
 
   // Set the chapter's stage dressing.
   ui.bg.style.backgroundImage = `url("${chapter.background}")`;
+  // "cover" fills the frame (crops a 4:5 image); "contain" shows the WHOLE
+  // image with letterbox bars (nothing cut off). Per-chapter `fit` overrides
+  // the global meta.imageFit default.
+  const fit = chapter.fit || meta.imageFit || "cover";
+  ui.bg.style.backgroundSize = fit === "contain" ? "contain" : "cover";
   playTrack(chapter.audio);
   applyGrade(state.awakening, grade.base, grade.peak);
 

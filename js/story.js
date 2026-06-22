@@ -44,6 +44,13 @@ export const meta = {
   title: "NEON PROPHETS",
   subtitle: "An interactive transmission",
 
+  // How chapter background images fill the vertical frame:
+  //   "cover"   = fill the screen, cropping a portrait/4:5 image top & bottom.
+  //   "contain" = show the WHOLE image with cinematic letterbox bars (no crop).
+  // Set to "contain" if you don't want your designed carousel art cut off.
+  // Any chapter can override this with its own `fit:` field.
+  imageFit: "contain",
+
   // Final meter (0–100) is matched to the highest `min` it meets to pick an ending.
   endings: [
     {
