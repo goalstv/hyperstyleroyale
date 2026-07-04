@@ -244,3 +244,10 @@ pulse simply costs that pulse's potential meter; there's no fail state.
   and per-chapter songs as they're ready.
 - Possible later upgrades: beat-synced rhythm tied to the real audio waveform,
   per-character voice styling, and an animated intro.
+
+### Sister concept — Founder Tycoon
+A separate GOALS-universe game concept, **Founder Tycoon** (working title
+*Junior Tycoon*), borrows the city-tycoon *progression loop* — constant visible
+forward motion — but swaps currency for **opportunity** and a landlord's empire
+for a founder's life, network, and legacy. Full design brief:
+[`docs/PROGRESSION_LOOP.md`](docs/PROGRESSION_LOOP.md).
