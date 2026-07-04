@@ -1,5 +1,10 @@
 # FOUNDER TYCOON — Progression Loop Design
 
+> ⚠️ **Superseded.** This was the initial loop sketch. It has been absorbed and
+> greatly expanded into the flagship creative bible —
+> **[`FOUNDER_SIMULATOR.md`](FOUNDER_SIMULATOR.md)**. Start there. This page is
+> kept only as the short "loop mechanics" reference.
+
 > **Working title:** Junior Tycoon
 > **Pitch line:** *"The first Founder Tycoon"* — the world's first playable
 > success story.

@@ -245,9 +245,10 @@ pulse simply costs that pulse's potential meter; there's no fail state.
 - Possible later upgrades: beat-synced rhythm tied to the real audio waveform,
   per-character voice styling, and an animated intro.
 
-### Sister concept — Founder Tycoon
-A separate GOALS-universe game concept, **Founder Tycoon** (working title
-*Junior Tycoon*), borrows the city-tycoon *progression loop* — constant visible
-forward motion — but swaps currency for **opportunity** and a landlord's empire
-for a founder's life, network, and legacy. Full design brief:
-[`docs/PROGRESSION_LOOP.md`](docs/PROGRESSION_LOOP.md).
+### Sister concept — Junior: Founder Simulator
+The flagship interactive experience for the **Junior** franchise — a decade-long
+*Founder Simulator* where you start with $40 and a notebook and build a life. The
+progression the player feels is **opportunity** (access, relationships, knowledge,
+reputation, skills), not money; the world grows around you as you rise. Full
+creative direction bible: **[`docs/FOUNDER_SIMULATOR.md`](docs/FOUNDER_SIMULATOR.md)**
+(the earlier loop sketch lives in [`docs/PROGRESSION_LOOP.md`](docs/PROGRESSION_LOOP.md)).
