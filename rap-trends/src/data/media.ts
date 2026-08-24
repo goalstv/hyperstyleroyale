@@ -105,7 +105,28 @@ const otherAssets: MediaAsset[] = [
   },
 ];
 
-export const MEDIA_ASSETS: MediaAsset[] = [...episodeAssets, ...otherAssets];
+/**
+ * Clean derivatives for every explicit episode.
+ *
+ * These must exist as real records: the rights gate reads `cleanVersionAssetId`
+ * as evidence that a clean version is available, and OTA, cable, and radio
+ * affiliate delivery are cleared on the strength of it.
+ */
+const cleanEpisodeAssets: MediaAsset[] = episodeAssets
+  .filter((a) => a.explicit)
+  .map((a) => ({
+    ...a,
+    id: `${a.id}_clean`,
+    title: `${a.title} (clean)`,
+    description: `Clean edit for broadcast, cable, and radio-affiliate delivery. ${a.description}`,
+    rating: "TV-14" as const,
+    explicit: false,
+    cleanVersionAssetId: undefined,
+    captionStatus: "human_reviewed" as const,
+    qcStatus: "passed" as const,
+  }));
+
+export const MEDIA_ASSETS: MediaAsset[] = [...episodeAssets, ...cleanEpisodeAssets, ...otherAssets];
 export const ASSET_BY_ID = new Map(MEDIA_ASSETS.map((a) => [a.id, a]));
 
 /* ------------------------------------------------------------------ rights */
@@ -139,8 +160,19 @@ const originalWindows: RightsWindow[] = episodeAssets.map((asset, i) => ({
       : "Network-owned. No third-party master or publishing dependency beyond cleared cues.",
 }));
 
+const cleanEpisodeWindows: RightsWindow[] = cleanEpisodeAssets.map((asset) => {
+  const parent = originalWindows.find((w) => `${w.assetId}_clean` === asset.id);
+  return {
+    ...(parent as RightsWindow),
+    id: `rw_${asset.id}`,
+    assetId: asset.id,
+    notes: "Clean derivative of a network-owned original; carries the same clearances.",
+  };
+});
+
 export const RIGHTS_WINDOWS: RightsWindow[] = [
   ...originalWindows,
+  ...cleanEpisodeWindows,
   {
     id: "rw_mv_01", assetId: "asset_mv_01",
     rightsOwner: "Demo Label Group (placeholder licensor)",
