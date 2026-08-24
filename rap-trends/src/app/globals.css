@@ -1,0 +1,197 @@
+@import "tailwindcss";
+
+/*
+ * RAP TRENDS DESIGN SYSTEM
+ * -----------------------------------------------------------------------
+ * Black, bone, deep red, electric blue, silver, restrained neon.
+ * Reference points: Bloomberg's data density, ESPN's on-air hierarchy,
+ * Billboard's chart typography, luxury fashion editorial's restraint.
+ *
+ * Type: condensed display for headlines and on-air furniture, a neutral
+ * grotesque for reading, and a tabular mono for every number that matters.
+ * Everything is sized so it survives a 10-foot television viewing distance
+ * as well as a phone.
+ */
+
+@theme {
+  /* ---- core palette ---- */
+  --color-ink: #050506;          /* the network black */
+  --color-ink-2: #0C0D10;        /* raised surface */
+  --color-ink-3: #15171C;        /* card */
+  --color-ink-4: #1F222A;        /* border / hairline */
+  --color-bone: #EFEAE0;         /* primary text on dark */
+  --color-bone-dim: #A8A399;     /* secondary text */
+  --color-silver: #6E7480;       /* tertiary / metadata */
+
+  --color-blood: #D42026;        /* deep red — live, breaking, alert */
+  --color-blood-dark: #8E1219;
+  --color-volt: #1B57F5;         /* electric blue — data, links, index */
+  --color-volt-soft: #4B7DFF;
+  --color-neon: #00E5A0;         /* restrained neon — up, ok, verified */
+  --color-amber: #F5A623;        /* warning */
+  --color-gold: #C9A227;         /* awards, premium */
+
+  /* ---- type ---- */
+  --font-display: "Archivo Narrow", "Oswald", "Haettenschweiler", "Arial Narrow", system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Roboto Mono", Menlo, monospace;
+
+  /* ---- motion ---- */
+  --ease-out-broadcast: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  background: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "ss01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- display type ------------------------------------------------------- */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 0.94;
+  text-transform: uppercase;
+  font-stretch: condensed;
+}
+
+.display-tight {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.6875rem;
+  line-height: 1;
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* ---- surfaces ----------------------------------------------------------- */
+
+.hairline { border-color: var(--color-ink-4); }
+
+.surface {
+  background: var(--color-ink-3);
+  border: 1px solid var(--color-ink-4);
+}
+
+.surface-2 {
+  background: linear-gradient(180deg, var(--color-ink-3) 0%, var(--color-ink-2) 100%);
+  border: 1px solid var(--color-ink-4);
+}
+
+/* ---- on-air furniture --------------------------------------------------- */
+
+.live-dot {
+  width: 0.5rem; height: 0.5rem; border-radius: 9999px;
+  background: var(--color-blood);
+  box-shadow: 0 0 0 0 rgba(212, 32, 38, 0.7);
+  animation: live-pulse 2s infinite;
+}
+
+@keyframes live-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(212, 32, 38, 0.65); }
+  70%  { box-shadow: 0 0 0 0.5rem rgba(212, 32, 38, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(212, 32, 38, 0); }
+}
+
+.ticker-track {
+  display: inline-flex;
+  animation: ticker-scroll 60s linear infinite;
+  will-change: transform;
+}
+
+.ticker:hover .ticker-track,
+.ticker:focus-within .ticker-track { animation-play-state: paused; }
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Broadcast scanline texture for video surfaces — subtle, never over text. */
+.scan {
+  background-image: repeating-linear-gradient(
+    0deg, rgba(255,255,255,0.022) 0px, rgba(255,255,255,0.022) 1px, transparent 1px, transparent 3px
+  );
+}
+
+.grain::after {
+  content: "";
+  position: absolute; inset: 0; pointer-events: none;
+  opacity: 0.16;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.18) 1px, transparent 0);
+  background-size: 4px 4px;
+}
+
+/* ---- accessibility ------------------------------------------------------ */
+
+:focus-visible {
+  outline: 2px solid var(--color-volt-soft);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.skip-link {
+  position: absolute; left: 0.5rem; top: -3rem;
+  background: var(--color-volt); color: #fff;
+  padding: 0.5rem 0.875rem; z-index: 100; font-weight: 600;
+  transition: top 120ms var(--ease-out-broadcast);
+}
+.skip-link:focus { top: 0.5rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .ticker-track { animation: none; transform: none; }
+}
+
+/* High-contrast preference: strengthen every hairline. */
+@media (prefers-contrast: more) {
+  .surface, .surface-2, .hairline { border-color: #4A4F5A; }
+  body { color: #FFFFFF; }
+}
+
+/* ---- scrollbars (operator consoles get dense scroll areas) -------------- */
+.thin-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+.thin-scroll::-webkit-scrollbar-track { background: var(--color-ink-2); }
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-ink-4); border-radius: 99px; border: 2px solid var(--color-ink-2);
+}
+.thin-scroll::-webkit-scrollbar-thumb:hover { background: #333844; }
+
+/* ---- print (rate cards, affiliate specs, cue sheets) -------------------- */
+@media print {
+  body { background: #fff; color: #000; }
+  .no-print { display: none !important; }
+}
