@@ -3,7 +3,7 @@ import {
   DEFAULT_PROFILE, computeConfidence, detectFlags, isPublishable, movement,
   rankEntries, recencyMultiplier, scoreEntry, MIN_SIGNALS_FOR_PUBLICATION,
 } from "@/lib/index-engine";
-import type { ChartEntry, IndexSource, SignalBundle } from "@/lib/types";
+import type { ChartEntry, FraudFlag, IndexSource, SignalBundle } from "@/lib/types";
 
 const NOW = "2026-06-01T12:00:00.000Z";
 
@@ -194,11 +194,11 @@ describe("confidence", () => {
   });
 
   it("never goes negative", () => {
-    const flags = [
-      { code: "flat_engagement", severity: "high" as const, detail: "" },
-      { code: "velocity_spike", severity: "high" as const, detail: "" },
-      { code: "geo_concentration", severity: "high" as const, detail: "" },
-      { code: "single_source_dominance", severity: "high" as const, detail: "" },
+    const flags: FraudFlag[] = [
+      { code: "flat_engagement", severity: "high", detail: "" },
+      { code: "velocity_spike", severity: "high", detail: "" },
+      { code: "geo_concentration", severity: "high", detail: "" },
+      { code: "single_source_dominance", severity: "high", detail: "" },
     ];
     expect(computeConfidence({}, flags, ALL_SOURCES, NOW)).toBe(0);
   });

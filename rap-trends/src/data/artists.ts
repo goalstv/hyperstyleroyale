@@ -131,7 +131,7 @@ export const ARTISTS: Artist[] = [
     bio: "Miami artist whose club-first release strategy is the clearest current example of nightlife driving national streaming. Demonstration profile.",
     tags: ["miami", "club", "nightlife"], nextUp: true, monthlyListenersBand: "500K–1M (demo band)",
     socials: [{ platform: "TikTok", handle: "@demo_zetaroyale" }],
-    signals: { streaming_velocity: 83, video_views: 59, video_view_velocity: 88, radio_airplay: 31, shazam: 78, search_interest: 63, social_conversation: 71, short_form_usage: 91, playlist_adds: 68, concert_demand: 57, ticket_sales: 43, audience_vote: 74, editorial_assessment: 68, geographic_momentum: 89, engagement_quality: 34 },
+    signals: { streaming_velocity: 83, video_views: 59, video_view_velocity: 88, radio_airplay: 31, shazam: 78, search_interest: 63, social_conversation: 71, short_form_usage: 91, playlist_adds: 68, concert_demand: 57, ticket_sales: 43, audience_vote: 74, editorial_assessment: 68, geographic_momentum: 89, engagement_quality: 30 },
   },
   {
     ...demo, id: "art_16", slug: "obi-strand", name: "Obi Strand", city: "Johannesburg", cityId: "jnb",

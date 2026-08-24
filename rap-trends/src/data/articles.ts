@@ -92,7 +92,7 @@ export const ARTICLES: Article[] = [
     body: `Demonstration ARCHIVE feature.\n\nRAP TRENDS will not exhibit archival material without a documented chain of title. That position costs us programming, and it is not negotiable.`,
   },
   {
-    ...demo, id: "art_a06", slug: "zeta-royale-flag", headline: "A No. 7 record is carrying an open manipulation flag. Here is what that means",
+    ...demo, id: "art_a06", slug: "zeta-royale-flag", headline: "A charting record is carrying an open manipulation flag. Here is what that means",
     dek: "Transparency note on this week's TRENDING 10 and the review now under way.",
     state: "published", authorId: "usr_02", authorName: "Editor-in-Chief", editorId: "usr_02",
     pillar: "TRENDING 10", cityIds: ["mia"], artistIds: ["art_15"],
