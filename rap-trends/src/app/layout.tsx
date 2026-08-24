@@ -1,9 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
-import { LiveBar } from "@/components/live-bar";
-import { getNowAndNext, getRadioClock } from "@/lib/repo";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
@@ -28,9 +24,7 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [{ current, next }, radio] = await Promise.all([getNowAndNext(), getRadioClock()]);
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -41,13 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen pb-20">
-        <a href="#main" className="skip-link">Skip to main content</a>
-        <SiteHeader />
-        <main id="main">{children}</main>
-        <SiteFooter />
-        <LiveBar segments={radio} current={current} nextTitle={next[0]?.title} />
-      </body>
+      <body className="min-h-screen">{children}</body>
     </html>
   );
 }
