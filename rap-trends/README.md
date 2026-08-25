@@ -136,6 +136,7 @@ rap-trends/
 | 18 | [Setup and deployment](docs/18-setup-and-deployment.md) |
 | 19 | [Partner pitch material](docs/19-partner-pitch-material.md) |
 | 20 | [Third-party dependencies](docs/20-third-party-dependencies.md) |
+| 21 | [Lovable port status and handoff](docs/21-lovable-port.md) |
 
 Environment variables are documented in [`.env.example`](.env.example). None is required to run the
 demonstration build.
