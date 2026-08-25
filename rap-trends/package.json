@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "description": "RAP TRENDS — network website, RAP TRENDS OS media operations backend, artist portal, and affiliate portal.",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
