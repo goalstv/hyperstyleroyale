@@ -36,9 +36,13 @@ const truncate = (s, n) => (s.length > n ? `${s.slice(0, n)}…` : s);
 
 /** Strip the API key out of any text headed for the client. Upstream error
  *  bodies can echo the Authorization header back, and these land in transcripts. */
+const MIN_SECRET_LENGTH = 8;
 const redact = (text) => {
   const s = typeof text === 'string' ? text : String(text);
-  return API_KEY ? s.split(API_KEY).join('[redacted]') : s;
+  // A short value can't be a real key, and blindly substituting it would shred
+  // unrelated words in the message. Real Luma keys are far longer than this.
+  if (!API_KEY || API_KEY.length < MIN_SECRET_LENGTH) return s;
+  return s.split(API_KEY).join('[redacted]');
 };
 
 async function api(method, path, body) {
@@ -49,15 +53,26 @@ async function api(method, path, body) {
         'Create a key at https://lumalabs.ai/api/keys'
     );
   }
-  const res = await fetch(`${BASE_URL}${path}`, {
-    method,
-    headers: compact({
-      Authorization: `Bearer ${API_KEY}`,
-      Accept: 'application/json',
-      'Content-Type': body === undefined ? undefined : 'application/json',
-    }),
-    body: body === undefined ? undefined : JSON.stringify(body),
-  });
+  let res;
+  try {
+    res = await fetch(`${BASE_URL}${path}`, {
+      method,
+      headers: compact({
+        Authorization: `Bearer ${API_KEY}`,
+        Accept: 'application/json',
+        'Content-Type': body === undefined ? undefined : 'application/json',
+      }),
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
+  } catch (err) {
+    // Node's fetch reports every transport failure as a bare "fetch failed";
+    // the useful detail is on the cause.
+    const cause = err?.cause?.code ?? err?.cause?.message ?? err?.message ?? 'unknown error';
+    throw new Error(
+      `Could not reach the Luma API at ${BASE_URL} (${cause}). ` +
+        'Check network access to api.lumalabs.ai, and any proxy or firewall in front of it.'
+    );
+  }
 
   const text = await res.text();
   if (!res.ok) {
@@ -438,6 +453,40 @@ const TOOLS = [
     handler: () => api('GET', '/credits'),
   },
 ];
+
+/* ------------------------------------------------------------ selfcheck -- */
+
+// `node luma-mcp.mjs --check` verifies the environment and credentials without
+// starting the server, so setup problems surface as one clear answer.
+if (process.argv.includes('--check')) {
+  const line = (ok, text) => console.log(`${ok ? 'ok  ' : 'FAIL'}  ${text}`);
+  const major = Number(process.versions.node.split('.')[0]);
+  let healthy = true;
+
+  line(major >= 18, `Node ${process.versions.node} (needs 18 or newer)`);
+  if (major < 18) healthy = false;
+
+  if (!API_KEY) {
+    line(false, 'LUMAAI_API_KEY is not set in this environment');
+    healthy = false;
+  } else {
+    line(true, `LUMAAI_API_KEY is set (ends ...${API_KEY.slice(-4)})`);
+    try {
+      const credits = await api('GET', '/credits');
+      line(true, `Luma API reachable - credit balance: ${credits?.credit_balance ?? 'unknown'}`);
+    } catch (err) {
+      line(false, redact(err?.message ?? String(err)));
+      healthy = false;
+    }
+  }
+
+  console.log(
+    healthy
+      ? '\nReady. Register this file as an MCP server, then restart your Claude client.'
+      : '\nNot ready - fix the FAIL lines above.'
+  );
+  process.exit(healthy ? 0 : 1);
+}
 
 /* ------------------------------------------------------------ transport -- */
 

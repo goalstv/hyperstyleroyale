@@ -170,6 +170,15 @@ try {
     check('the key is redacted from error text', !/wrong-key/.test(r.text), r.text);
     c.kill();
   }
+  {
+    // A short key must not be substituted, or every stray character matching it
+    // gets shredded out of otherwise useful error text.
+    const c = client({ LUMAAI_API_KEY: 'k', LUMAAI_BASE_URL: BASE });
+    await c.rpc('initialize', { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 't', version: '1' } });
+    const r = await c.call('luma_credits', {});
+    check('a too-short key does not corrupt the error message', /Unauthorized/.test(r.text) && !/\[redacted\]/.test(r.text), r.text);
+    c.kill();
+  }
 } finally {
   mock.kill();
   rmSync(work, { recursive: true, force: true });

@@ -9,8 +9,35 @@ image/video generation is available as tools in **every** project, not just this
 
 ## Setup
 
+Requires **Node 18+** on the machine running the Claude client (`node -v` to check).
+
 1. Create an API key at <https://lumalabs.ai/api/keys>.
-2. Register the server with Claude Code at **user scope**, so it loads in every project:
+2. Note the absolute path to `luma-mcp.mjs` in your clone of this repo.
+3. Register it with whichever client you use, below.
+4. Restart the client, then confirm it works by asking Claude to check your Luma credits.
+
+### Claude Desktop
+
+Settings → Developer → Edit Config, and merge this in:
+
+```json
+{
+  "mcpServers": {
+    "luma": {
+      "command": "node",
+      "args": ["/absolute/path/to/tools/luma-mcp/luma-mcp.mjs"],
+      "env": { "LUMAAI_API_KEY": "your_key_here" }
+    }
+  }
+}
+```
+
+That config file lives at `~/Library/Application Support/Claude/claude_desktop_config.json`
+on macOS and `%APPDATA%\Claude\claude_desktop_config.json` on Windows.
+
+### Claude Code
+
+Register at **user scope** so the server loads in every project, not just this one:
 
 ```bash
 claude mcp add --scope user luma \
@@ -18,9 +45,19 @@ claude mcp add --scope user luma \
   -- node /absolute/path/to/tools/luma-mcp/luma-mcp.mjs
 ```
 
-Verify with `claude mcp list`. To scope a key per-project instead, use
-`--scope project`; to keep the key out of config entirely, export
-`LUMAAI_API_KEY` in your shell and drop the `-e` flag.
+Verify with `claude mcp list`. Use `--scope project` instead to limit it to one
+project, or export `LUMAAI_API_KEY` in your shell and drop the `-e` flag to keep
+the key out of config files entirely.
+
+### Check it before wiring it up
+
+```bash
+LUMAAI_API_KEY=your_key_here node luma-mcp.mjs --check
+```
+
+This verifies your Node version, that the key is set, and that the API answers —
+printing the credit balance on success and a specific reason on failure. It exits
+non-zero if anything is wrong, and never prints your key.
 
 The server reads `LUMAAI_API_KEY` (or `LUMA_API_KEY`). `LUMAAI_BASE_URL`
 overrides the API base, which is how the test suite points at a mock.
