@@ -141,3 +141,31 @@ Nothing here changes the constraints the platform already operates under:
 - Software does not secure spectrum, carriage, or a licence.
 - Qualified broadcast counsel and music-licensing professionals must approve the final operating
   model.
+
+## What has been built on the product surface
+
+Recorded here so the plan and the implementation do not drift apart.
+
+| Capability | Where it lives | Commit |
+|---|---|---|
+| Content-partner model, POLARIS as the first record | `src/data/partners.ts`, `/partners/polaris` | `434be391` |
+| Four-service ATSC 3.0 multiplex | `src/data/distribution.ts`, `/distribution`, `/os/distribution` | `434be391` |
+| Bandwidth allocation arithmetic | `src/lib/multiplex.ts` + `src/lib/multiplex.test.ts` | `434be391` |
+| Event-scoped LIVE channel | `SubchannelLifecycle`, `canLight`, `setLifecycle` | `434be391` |
+| The six POLARIS dayparts | `src/data/programming-blocks.ts`, `/schedule` | `434be391` |
+| Corrected radio-licensing language, unnamed affiliate slot | `/partners/ota`, `/partners/radio` | `434be391` |
+
+`allocateMultiplex` is the piece worth knowing about. It sums only the subchannels in a
+consuming lifecycle, compares in whole kbps so a 0.1 Mbps overrun reports as an overrun rather
+than a rounding artefact, and returns the bandwidth held by dark services separately as
+`reclaimableMbps`. `canLight` answers whether the event channel fits before anyone lights it.
+Seven tests cover under, exactly at, and over capacity, a dark service releasing its bitrate, an
+ended service doing the same, an invalid bitrate, and the fit check.
+
+The daypart grid runs through the existing `validateSchedule` rather than a parallel path, and
+`/schedule` publishes the validation report — failures included. Tuning the data until the
+validator goes quiet would defeat the point of having one.
+
+**Note on the test runner.** `vitest` was not in the Lovable project's `package.json` until
+`434be391`. Any earlier pass that reported a passing suite there was not running one. The tests
+in this repo were always real; the product surface only acquired a runner at that commit.
