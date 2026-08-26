@@ -25,7 +25,11 @@ Port anything new by moving the domain module first and wiring the UI second.
 | 1 | `4e659420` | `types`, `clock`, `format`, `index-engine`, `artists`, `chart`, `index-sources`, plus `repo.ts` and a rebuilt `/charts` + `/charts/methodology` + `/artists` |
 | 2 | `2cc2feea` | `rights`, `cities`, `shows`, `articles`, `media`; `/read`, `/cities`, `/watch` and the delivery check on `/video/$id` |
 | — | `5aab867b` | `robots.txt` set to `Disallow: /` |
-| 3 | *unverified* | `schedule`, `ad-safety`, `workflow`, `roles`, `data/schedule`, `users`, `distribution`, `monetization`, `ops`; `/schedule` and the `/os` console |
+| 3 | `3750d94d` | `schedule`, `ad-safety`, `workflow`, `roles`, `data/schedule`, `users`, `distribution`, `monetization`, `ops`; `/schedule` and the `/os` console |
+| 4 | `dab76e87` | `rate-limit`, `validation`, server routes (`/api/epg`, `/api/health`, `/api/index`), submit and portal flows, hydration fixes |
+| — | `da9727dc` | `README.md` rewritten to describe the actual app |
+| — | `116898bf` | Drive videos labelled FPO while their metadata was unconfirmed |
+| — | `8bd3bb16` | FPO chrome removed globally at the operator's request |
 
 **Verification performed on passes 1 and 2** by reading the code back, not by trusting the
 summary:
@@ -39,9 +43,12 @@ summary:
 - `/video/$id` runs `checkEligibility` for real and renders the missing-rights-record asset as
   **blocked**, which is correct behaviour.
 
-**Pass 3 is unverified.** It was accepted by the agent but the MCP connector dropped before the
-commit could be confirmed. Check `/os` and `/schedule` render, and confirm
-`src/lib/index-engine.ts` and `src/lib/rights.ts` were not modified by that pass.
+**Passes 3 and 4 were verified the same way.** `/os/programming` calls
+`requirePermission("schedule.read")` in its loader and runs the real `validateSchedule` against
+asset and rights maps. `/api/epg` emits genuine XMLTV — DOCTYPE, `channel id`, `YYYYMMDDHHMMSS
++0000` timestamps, XML escaping, a `VCHIP` rating element and an `application/xml` content type
+— and filters to episode and live-window entries only. Neither pass modified `index-engine.ts`
+or `rights.ts`.
 
 ## Two things to know
 
@@ -55,9 +62,12 @@ context, so leaving it pulls future prompts back toward the mockup. There is no 
 change it — edit it in the Lovable project settings. The **project knowledge** is current and is
 what actually governs agent behaviour.
 
-## Remaining: pass 4
+## Archive: the pass 4 prompt
 
-Everything below is ready to paste into the Lovable chat as a single message. Attach nothing;
+Pass 4 has been applied (`dab76e87`). The prompt is kept verbatim below because it inlines the
+canonical `rate-limit.ts` and `validation.ts` sources — if the Lovable copies ever drift, this is
+the text that produced them. Everything below was pasted into the Lovable chat as a single
+message. Attach nothing;
 the two required modules are inlined.
 
 ---
@@ -250,13 +260,63 @@ domain logic to make a screen easier.
 
 ---
 
-## After pass 4
+## Editorial content and the POLARIS byline
+
+The site no longer carries fictional editorial. The ten demonstration articles written for the
+build have been removed from every public surface and replaced with **seven real articles**
+filed by the newsroom.
+
+**POLARIS is the standing byline.** It is the newsroom identity that reports and files for
+RapTrends.com, and it is what appears on every article. Copy inside the trial-primer piece that
+reads "Streamline POLARIS launches continuing coverage" and "follow POLARIS on YouTube" is
+correct as written and must not be rewritten to say RAP TRENDS.
+
+These articles carry `provenance: "verified"`. They must never render the `DEMO DATA` badge or
+the demonstration-data disclaimer — those exist to stop simulated numbers being mistaken for
+live ones, and applying them to real reporting would be the same failure in reverse.
+
+They concern **an active criminal prosecution and named living people**. The no-fabrication rule
+in the brief is at its strictest here: no invented publish dates, read times, view counts,
+related-story links, or tags that assert a fact about anyone named. If a field has no value, the
+field is omitted.
+
+### Video attachment: evidence, not resemblance
+
+The Drive folder supplies ten `.mp4` files and nothing else — no titles, no descriptions, no
+durations, no transcripts. Filenames are internal content IDs. A filename that resembles a topic
+is not evidence that the file is about that topic, and the brief forbids inventing content from
+one.
+
+| Asset | Article | Basis |
+|---|---|---|
+| `mob.mp4` | Tupac Murder Trial Day 2: Mob James | Strong — filename and article subject align, and the piece is the only Mob James story |
+| `50ss50.mp4` | 50 Cent & Rick Ross | Strong — but held by the rights gate, see below |
+| the other eight | none | No basis. Left in the video library, unattached |
+
+`50ss50.mp4` appears to contain third-party programming — the article cites Nadeska Alexis, and
+the clip's opening frame carries broadcast branding. It is attached to the article but its
+rights record is **not cleared for web distribution**, reason `Third-party rights unverified —
+clip may contain licensed programming`. `checkEligibility` therefore blocks it and the page
+renders the reason instead of a player. That is the gate working, not a defect; do not add a
+bypass.
+
+**Still outstanding:** the durations shown on some video cards (`12:04`, `04:18`, `07:52` and
+others) were invented during the first Lovable build. Drive exposes no duration metadata and the
+brief supplied none. They should be stripped or replaced with real values read from the files.
+
+**Still needed from the newsroom:** a one-line manifest per video — what it is, who appears in
+it, whether we shot it, and whether it is cleared. Until that exists the eight unattached files
+cannot be published, and `50ss50.mp4` cannot be released from the gate.
+
+## Standing checklist after any pass
 
 1. Confirm `/api/epg?format=xmltv` returns `application/xml` — open it directly.
 2. Confirm `/api/health` returns 503 (a demonstration check fails by design).
 3. Republish so the public URL catches up.
 4. Update the project description in Lovable settings.
 5. Leave `robots.txt` on `Disallow: /` until the Index runs on licensed data.
+6. Confirm no fictional article is reachable — the seven POLARIS pieces are the whole newsroom.
+7. Confirm `50ss50.mp4` still renders as blocked rather than playing.
 
 ## Reconciling changes back
 
