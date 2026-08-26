@@ -1,0 +1,13 @@
+{
+  "name": "luma-mcp",
+  "version": "1.0.0",
+  "description": "Zero-dependency MCP server for the Luma AI Dream Machine API (image + video generation)",
+  "type": "module",
+  "bin": { "luma-mcp": "./luma-mcp.mjs" },
+  "main": "./luma-mcp.mjs",
+  "engines": { "node": ">=18" },
+  "scripts": { "test": "node test/test.mjs" },
+  "files": ["luma-mcp.mjs", "README.md"],
+  "license": "MIT",
+  "private": true
+}
