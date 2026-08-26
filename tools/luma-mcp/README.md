@@ -41,9 +41,16 @@ overrides the API base, which is how the test suite points at a mock.
 
 ## Things worth knowing
 
-**Luma's asset URLs expire.** Pass `save_to` with a local path on any generating
-tool and the finished file is downloaded there (parent directories are created).
-If you don't save it, you may not be able to fetch it later.
+**Every generating tool returns a direct `asset_url`** you can open and save by
+hand. Optionally pass `save_to` with a local path and the file is downloaded
+there instead (parent directories are created). Either way, save what you want
+to keep — Luma's asset URLs expire.
+
+**Model ids are not enforced.** Luma has shipped models faster than they update
+their own SDK and OpenAPI spec, so `model`, `resolution` and `duration` accept
+any string and forward it to the API unchanged. The known ids are listed in each
+tool's schema as hints; if Luma releases something newer, name it directly and it
+will work without touching this server.
 
 **Videos take minutes.** Generating tools wait by default and return the asset
 when it's ready. If the wait window elapses the call still returns the generation

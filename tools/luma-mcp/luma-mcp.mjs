@@ -23,6 +23,7 @@ const API_KEY = process.env.LUMAAI_API_KEY || process.env.LUMA_API_KEY;
 
 const ASPECT_RATIOS = ['1:1', '16:9', '9:16', '4:3', '3:4', '21:9', '9:21'];
 const RESOLUTIONS = ['540p', '720p', '1080p', '4k'];
+// Known model ids, advertised as hints rather than enforced — see openProp().
 const IMAGE_MODELS = ['photon-1', 'photon-flash-1'];
 const VIDEO_MODELS = ['ray-2', 'ray-flash-2'];
 const TERMINAL_STATES = new Set(['completed', 'failed']);
@@ -135,6 +136,19 @@ async function summarize(gen, saveTo) {
 const enumProp = (values, description, fallback) =>
   compact({ type: 'string', enum: values, description, default: fallback });
 
+/**
+ * A string field whose known-good values are advertised but NOT enforced.
+ * Luma ships models faster than they update their SDK and OpenAPI spec, so a
+ * closed enum here would block newer models until this file is edited. Unknown
+ * values are forwarded to the API, which is the real source of truth.
+ */
+const openProp = (values, description, fallback) =>
+  compact({
+    type: 'string',
+    description: `${description} Known values: ${values.join(', ')}. A newer value is passed through unchanged.`,
+    default: fallback,
+  });
+
 const refArray = (description) => ({
   type: 'array',
   description,
@@ -191,7 +205,7 @@ const TOOLS = [
       type: 'object',
       properties: {
         prompt: { type: 'string', description: 'What to generate. Luma renders text poorly — prefer textless art.' },
-        model: enumProp(IMAGE_MODELS, 'photon-1 is higher quality; photon-flash-1 is faster and cheaper.', 'photon-1'),
+        model: openProp(IMAGE_MODELS, 'Image model. photon-1 is higher quality; photon-flash-1 is faster and cheaper.', 'photon-1'),
         aspect_ratio: enumProp(ASPECT_RATIOS, 'Output aspect ratio.', '16:9'),
         format: enumProp(['jpg', 'png'], 'Output file format.'),
         image_ref: refArray('Reference images guiding overall composition and content.'),
@@ -243,10 +257,10 @@ const TOOLS = [
       type: 'object',
       properties: {
         prompt: { type: 'string', description: 'Describe the motion and the scene, not just the subject.' },
-        model: enumProp(VIDEO_MODELS, 'ray-2 is higher quality; ray-flash-2 is faster and cheaper.', 'ray-2'),
+        model: openProp(VIDEO_MODELS, 'Video model. ray-2 is higher quality; ray-flash-2 is faster and cheaper. Newer Ray models can be named here directly.', 'ray-2'),
         aspect_ratio: enumProp(ASPECT_RATIOS, 'Output aspect ratio.', '16:9'),
-        resolution: enumProp(RESOLUTIONS, 'Output resolution.', '720p'),
-        duration: { type: 'string', description: 'Clip length, e.g. "5s" or "9s".' },
+        resolution: openProp(RESOLUTIONS, 'Output resolution.', '720p'),
+        duration: { type: 'string', description: 'Clip length, e.g. "5s" or "9s". Newer Ray models accept longer clips.' },
         loop: { type: 'boolean', description: 'Make the clip loop seamlessly.' },
         start_image_url: { type: 'string', description: 'Image URL to start from (image-to-video).' },
         end_image_url: { type: 'string', description: 'Image URL to end on.' },
@@ -289,7 +303,7 @@ const TOOLS = [
       properties: {
         image_url: { type: 'string', description: 'Publicly reachable URL of the image to reframe.' },
         aspect_ratio: enumProp(ASPECT_RATIOS, 'Target aspect ratio.'),
-        model: enumProp(IMAGE_MODELS, 'Model to use.', 'photon-1'),
+        model: openProp(IMAGE_MODELS, 'Image model to use.', 'photon-1'),
         prompt: { type: 'string', description: 'Optional guidance for the newly generated areas.' },
         format: enumProp(['jpg', 'png'], 'Output file format.'),
         save_to: saveToProp('image'),
@@ -321,7 +335,7 @@ const TOOLS = [
       type: 'object',
       properties: {
         id: { type: 'string', description: 'Id of a completed video generation.' },
-        resolution: enumProp(RESOLUTIONS, 'Target resolution.', '1080p'),
+        resolution: openProp(RESOLUTIONS, 'Target resolution.', '1080p'),
         save_to: saveToProp('video'),
         ...waitProps(600),
       },

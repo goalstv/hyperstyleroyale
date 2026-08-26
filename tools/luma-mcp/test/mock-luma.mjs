@@ -28,6 +28,9 @@ const server = createServer(async (req, res) => {
     return json(401, { error: 'bad auth', got: req.headers.authorization ?? null });
   }
 
+  // Test-only: lets the suite assert exactly what payload the server sent.
+  if (pathname === '/debug/submissions') return json(200, [...generations.values()].map((g) => g.body));
+
   if (pathname === '/v1/credits') return json(200, { credit_balance: 4242 });
   if (pathname === '/v1/generations/concepts/list') return json(200, ['push_in', 'orbit_left']);
   if (pathname === '/v1/generations' && req.method === 'GET') {

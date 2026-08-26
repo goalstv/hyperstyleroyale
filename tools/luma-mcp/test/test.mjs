@@ -124,6 +124,18 @@ try {
     const vid = await c.call('luma_generate_video', { prompt: 'y', start_image_url: 'http://a/s.png', end_generation_id: 'gen-1', concepts: ['push_in'], duration: '9s' });
     check('video with keyframes and concepts completes', vid.data?.state === 'completed', JSON.stringify(vid.data));
 
+    // Luma ships models faster than their SDK and OpenAPI spec, so an unknown
+    // model id must reach the API rather than being rejected locally.
+    await c.call('luma_generate_video', { prompt: 'future', model: 'ray-99-unreleased', resolution: '8k', duration: '20s', wait: false });
+    const submissions = await (await fetch(`${BASE.replace('/v1', '')}/debug/submissions`, { headers: { authorization: 'Bearer test-key-123' } })).json();
+    const forwarded = submissions.at(-1);
+    check('an unknown model id is forwarded, not rejected', forwarded?.model === 'ray-99-unreleased', JSON.stringify(forwarded));
+    check('an unknown resolution and duration are forwarded', forwarded?.resolution === '8k' && forwarded?.duration === '20s', JSON.stringify(forwarded));
+
+    const imgSubmit = submissions[0];
+    check('character_ref is nested into identity0.images', imgSubmit?.character_ref?.identity0?.images?.length === 2, JSON.stringify(imgSubmit?.character_ref));
+    check('aspect_ratio and model reach the API as given', imgSubmit?.aspect_ratio === '9:16' && imgSubmit?.model === 'photon-flash-1');
+
     const listed = await c.call('luma_list_generations', { limit: 1 });
     check('list maps rows to id/state/prompt', listed.data?.[0]?.id === 'old1' && listed.data?.[0]?.prompt === 'a prior prompt');
     check('credits pass through', (await c.call('luma_credits', {})).data?.credit_balance === 4242);
