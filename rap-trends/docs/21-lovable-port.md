@@ -262,7 +262,12 @@ domain logic to make a screen easier.
 
 ## Editorial content and the POLARIS byline
 
-The site no longer carries fictional editorial. The ten demonstration articles written for the
+**The two implementations diverge here on purpose.** This repo keeps its ten demonstration
+articles: it is the reference build, and those pieces exist to exercise the workflow state
+machine, the corrections surface and the provenance badge. The Lovable app is the live product
+surface and carries real reporting only.
+
+The product surface no longer carries fictional editorial. The ten demonstration articles written for the
 build have been removed from every public surface and replaced with **seven real articles**
 filed by the newsroom.
 
@@ -300,9 +305,13 @@ clip may contain licensed programming`. `checkEligibility` therefore blocks it a
 renders the reason instead of a player. That is the gate working, not a defect; do not add a
 bypass.
 
-**Still outstanding:** the durations shown on some video cards (`12:04`, `04:18`, `07:52` and
-others) were invented during the first Lovable build. Drive exposes no duration metadata and the
-brief supplied none. They should be stripped or replaced with real values read from the files.
+**Resolved.** The durations shown on the video cards (`12:04`, `04:18`, `07:52` and the rest),
+the per-franchise content ratings, and the air dates were all invented during the first Lovable
+build. Drive exposes none of that metadata and the brief supplied none. They have been removed
+from `VideoItem`, from `MediaAsset` (where the fields are now optional), and from every surface
+that rendered them. `MediaAsset.durationSeconds`, `resolution`, `aspectRatio`, `audioFormat` and
+`rating` are unset when nothing measured them, and the operator screens show "not supplied"
+rather than a zero.
 
 **Still needed from the newsroom:** a one-line manifest per video — what it is, who appears in
 it, whether we shot it, and whether it is cleared. Until that exists the eight unattached files
