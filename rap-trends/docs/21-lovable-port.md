@@ -298,6 +298,12 @@ one.
 | `50ss50.mp4` | 50 Cent & Rick Ross | Strong — but held by the rights gate, see below |
 | the other eight | none | No basis. Left in the video library, unattached |
 
+A later frame inspection found a **POLARIS star bug** on `mob.mp4`. That is provenance, not a
+rights problem: POLARIS is the content partner that filed the story the video leads, and a
+partner's own bug on its own footage is exactly what you would expect. A *third-party*
+broadcaster's bug would mean the opposite, and any asset carrying one belongs behind the gate
+alongside `50ss50`.
+
 `50ss50.mp4` appears to contain third-party programming — the article cites Nadeska Alexis, and
 the clip's opening frame carries broadcast branding. It is attached to the article but its
 rights record is **not cleared for web distribution**, reason `Third-party rights unverified —
@@ -312,6 +318,30 @@ from `VideoItem`, from `MediaAsset` (where the fields are now optional), and fro
 that rendered them. `MediaAsset.durationSeconds`, `resolution`, `aspectRatio`, `audioFormat` and
 `rating` are unset when nothing measured them, and the operator screens show "not supplied"
 rather than a zero.
+
+### Editorial illustration
+
+Article and video cards carry photorealistic artwork that is **strictly non-depictive**. Not one
+image shows a person, and none claims to show the events in the story or the footage in a video.
+
+That is not squeamishness. Six of the seven articles concern named living people and an active
+prosecution; a synthetic photorealistic image of a real person attached to one of them would
+function as fabricated evidence whatever the caption said. Empty rooms, unattended microphones
+and studio interiors are what a newsroom without photo rights actually runs. Every use carries
+the line "Illustration. Not a photograph of the events described.", and alt text describes the
+artwork rather than asserting a scene.
+
+Seventeen images were generated; **four were rejected on review** and two of those replaced. The
+failure mode is worth knowing: no image produced a face, but the model invented pseudo-lettering
+on any surface that could plausibly hold text — fake broadcaster names on press-microphone
+flags, a legible-looking legal document, an illuminated building sign, a record label. A fifth
+candidate was rejected for a human arm at the frame edge. Anything generated for this site must
+be looked at and zoomed into before it ships; the review is not a formality. Licensed press
+photography is the better answer once there is budget for it.
+
+Where a real extracted frame from the Drive file exists, it beats an illustration — it is the
+honest poster for that asset. Resolution order is editorial illustration, then extracted frame,
+then the deterministic abstract poster.
 
 **Still needed from the newsroom:** a one-line manifest per video — what it is, who appears in
 it, whether we shot it, and whether it is cleared. Until that exists the eight unattached files
