@@ -106,3 +106,24 @@ python3 test_find_leads.py
 
 Covers URL classification, address parsing, tile geometry, region/status
 filtering, and a full sweep against a stubbed API — no key or network needed.
+
+## Web app version
+
+The same scanning logic also exists as a hosted app built on Lovable
+("Blank Slate Pro"), for when you want a UI, lead tracking, and a team-shared
+database instead of CSVs:
+
+- Editor: https://lovable.dev/projects/79401941-3a76-4ea5-aba1-dd3d12f9b136
+- Preview: https://id-preview--79401941-3a76-4ea5-aba1-dd3d12f9b136.lovable.app
+
+It adds a Postgres store keyed on the Google place id (so CRM status and
+notes survive re-scans), a resumable tile queue, per-lead status/notes/
+follow-up dates, and a dashboard broken down by category and ZIP.
+
+The app reads its Google key from the `GOOGLE_MAPS_API_KEY` backend secret,
+set in Lovable's project settings. The key must have **application
+restrictions set to None or IP addresses** — a referrer-restricted key fails
+when called server-side.
+
+This CLI script and the app query Google the same way and cost the same per
+call. Use the script for a one-off export; use the app for ongoing outreach.
