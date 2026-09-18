@@ -145,17 +145,75 @@ and `fact()` is the only constructor and returns `null` without a citation.
 because MusicBrainz is editorially curated and its identifiers are what
 everything else joins on.
 
+## What happened on the first real run
+
+The adapters were written against published documentation in an environment that
+could not reach any of these hosts. They were then run for real from the Lovable
+sandbox on 2026-09-18. Recording the outcome here because the useful part is
+what the documentation did not say.
+
+**MusicBrainz answered, and the parser survived contact.** All twenty artists
+resolved to an unambiguous MBID, including the ordinary-word names — Future,
+Common and Nas all came back clean, because `lookupArtist` queries a name
+directly rather than extracting it from prose, so the corroboration guard is not
+the mechanism in play there. Two findings worth keeping:
+
+- **It rate-limits harder than one request per second suggests.** Seven of the
+  twenty lookups returned HTTP 503 even at a 1.1-second cadence, and every one
+  of them succeeded on a slower retry. `httpFetcher` now retries 429 and 503
+  with doubling backoff for that reason. Without it, a third of the identity
+  spine would have gone missing out of impatience rather than anything real.
+- **Not every artist has a country.** Rick Ross came back with `area: "Miami"`
+  and no `country` at all. The parser already omits absent fields rather than
+  defaulting them, so this cost nothing — but a schema that assumed `country`
+  would have either crashed or invented "US".
+
+**Bandsintown refused, with an explicit deny.** Every request returned HTTP 403:
+
+```
+{"Message":"User is not authorized to access this resource with an
+  explicit deny in an identity-based policy"}
+```
+
+The same 403 came back with a descriptive User-Agent, on the `/v3/` path, and on
+the artist-info endpoint, so it is an authorisation decision about the
+self-declared `app_id` rather than a transport problem. **A self-declared
+`app_id` is no longer accepted; a registered partner credential is required.**
+
+This document previously recommended Bandsintown as the first source to wire, on
+the grounds that it needs no auth. That recommendation was wrong and is
+corrected here rather than quietly deleted. The reasoning behind it still holds —
+announced dates are countable, public and hard to inflate — so it remains the
+right first *signal*, once there is a credential.
+
+The consequence was carried through honestly: no `concert_demand` observation
+exists, the signal stays simulated, and no fixture was written to stand in for
+the missing response. A 403 recorded is worth more than a plausible number.
+
+## Identity is not signal
+
+The Lovable port made a distinction the reference build had not, and it is the
+better shape:
+
+MusicBrainz is **not** an `IndexSource`. It establishes who an artist is and
+measures nothing about how a record is performing. Registering it as a source
+with a signal key at weight zero would misrepresent what it does, so it belongs
+in a separate reference register that explicitly `contributesToScore: false`.
+
+Port that back before wiring any further identity source. A reference source and
+a signal source have different obligations, and collapsing them makes the source
+list read as though the Index has more inputs than it does.
+
 ## What is not done
 
-- **No live source is connected.** The adapters are written and fixture-tested,
-  but this session's egress policy blocks MusicBrainz, Bandsintown, TheAudioDB
-  and Wikidata, so no parser has met a real response. Verify each against a live
-  payload before enabling it in production. The parsers tolerate missing fields
-  rather than assuming any are present, which limits the damage if a shape has
-  drifted.
-- **`EVENT_COUNT_REF_MAX` is a placeholder.** It sets where an event count maps
-  to 100. Revisit it after a week of real ingest — and record the change, because
-  it moves every score.
+- **`TheAudioDB` and the remaining signals are unverified.** Only MusicBrainz
+  has met a real response. The parsers tolerate missing fields rather than
+  assuming any are present, which limits the damage if a shape has drifted, but
+  verify each against a live payload before enabling it.
+- **`EVENT_COUNT_REF_MAX` is a placeholder and has never been calibrated**,
+  because no event data has been retrieved. It sets where an event count maps to
+  100. Set it from observed data once a Bandsintown credential exists, and record
+  the change, because it moves every score.
 - **Nothing is persisted.** `runIngest` returns a report; storage is the caller's
   problem, which keeps the layer testable end to end.
 - **The audit page freezes an empty observation list**, because there is nothing

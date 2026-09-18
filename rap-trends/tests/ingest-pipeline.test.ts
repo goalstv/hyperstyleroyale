@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { applyScale, makeObservation } from "@/lib/ingest/observation";
 import { normalizeAll, normalizeObservations } from "@/lib/ingest/normalize";
-import { fixtureFetcher } from "@/lib/ingest/http";
+import { fixtureFetcher, httpFetcher } from "@/lib/ingest/http";
 import {
   eventsUrl,
   fetchConcertDemand,
@@ -225,5 +225,63 @@ describe("musicbrainz adapter", () => {
     const fetcher = fixtureFetcher({ "musicbrainz.org": weak }, NOW);
     const { match } = await lookupArtist(fetcher, "Nobody");
     expect(match).toBeNull();
+  });
+});
+
+// Driven by a real run: MusicBrainz returned 503 for 7 of 20 lookups under its
+// rate limiter, and every one succeeded on a slower retry.
+describe("httpFetcher retry policy", () => {
+  function stubGlobalFetch(sequence: { status: number; body: unknown }[]) {
+    let call = 0;
+    const original = globalThis.fetch;
+    globalThis.fetch = (async () => {
+      const step = sequence[Math.min(call, sequence.length - 1)]!;
+      call += 1;
+      return {
+        ok: step.status >= 200 && step.status < 300,
+        status: step.status,
+        text: async () => JSON.stringify(step.body),
+      } as unknown as Response;
+    }) as typeof fetch;
+    return { restore: () => { globalThis.fetch = original; }, calls: () => call };
+  }
+
+  it("retries a 503 and succeeds without waiting in the test", async () => {
+    const stub = stubGlobalFetch([
+      { status: 503, body: { error: "rate limited" } },
+      { status: 200, body: { artists: [] } },
+    ]);
+    try {
+      const fetcher = httpFetcher({ retries: 2, sleep: async () => {} });
+      const res = await fetcher("https://musicbrainz.org/ws/2/artist?query=x");
+      expect(res.ok).toBe(true);
+      expect(stub.calls()).toBe(2);
+    } finally {
+      stub.restore();
+    }
+  });
+
+  it("gives up after the retry budget rather than hammering the upstream", async () => {
+    const stub = stubGlobalFetch([{ status: 503, body: {} }]);
+    try {
+      const fetcher = httpFetcher({ retries: 2, sleep: async () => {} });
+      const res = await fetcher("https://musicbrainz.org/ws/2/artist?query=x");
+      expect(res.ok).toBe(false);
+      expect(stub.calls()).toBe(3);
+    } finally {
+      stub.restore();
+    }
+  });
+
+  it("does not retry a 403, which is a decision rather than a hiccup", async () => {
+    const stub = stubGlobalFetch([{ status: 403, body: { Message: "explicit deny" } }]);
+    try {
+      const fetcher = httpFetcher({ retries: 2, sleep: async () => {} });
+      const res = await fetcher("https://rest.bandsintown.com/artists/x/events?app_id=y");
+      expect(res.ok).toBe(false);
+      expect(stub.calls()).toBe(1);
+    } finally {
+      stub.restore();
+    }
   });
 });

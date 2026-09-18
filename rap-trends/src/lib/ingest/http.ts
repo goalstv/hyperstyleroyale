@@ -19,13 +19,31 @@ export const DEFAULT_USER_AGENT = "RapTrendsIndex/0.1 ( https://raptrends.com/co
 export interface HttpFetcherOptions {
   userAgent?: string;
   timeoutMs?: number;
+  /**
+   * Retries on 429 and 503 only. Defaults to 2.
+   *
+   * Added after a real run: MusicBrainz returned 503 for 7 of 20 lookups under
+   * its rate limiter even at a 1.1s cadence, and every one of them succeeded on
+   * a slower retry. Without this a third of the identity spine would go missing
+   * for no reason other than impatience.
+   */
+  retries?: number;
+  /** Base backoff in ms; doubles each attempt. */
+  backoffMs?: number;
+  /** Injectable so tests do not actually wait. */
+  sleep?: (ms: number) => Promise<void>;
 }
+
+const RETRYABLE_STATUS = new Set([429, 503]);
 
 export function httpFetcher(options: HttpFetcherOptions = {}): Fetcher {
   const userAgent = options.userAgent ?? DEFAULT_USER_AGENT;
   const timeoutMs = options.timeoutMs ?? 15_000;
+  const retries = options.retries ?? 2;
+  const backoffMs = options.backoffMs ?? 1_500;
+  const sleep = options.sleep ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)));
 
-  return async (url, init) => {
+  const attempt: Fetcher = async (url, init) => {
     const fetchedIso = new Date().toISOString();
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -64,6 +82,15 @@ export function httpFetcher(options: HttpFetcherOptions = {}): Fetcher {
     } finally {
       clearTimeout(timer);
     }
+  };
+
+  return async (url, init) => {
+    let last = await attempt(url, init);
+    for (let i = 0; i < retries && RETRYABLE_STATUS.has(last.status); i += 1) {
+      await sleep(backoffMs * 2 ** i);
+      last = await attempt(url, init);
+    }
+    return last;
   };
 }
 
