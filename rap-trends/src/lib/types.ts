@@ -104,7 +104,15 @@ export interface IndexSource {
     | "public_source"
     | "direct_submission"
     | "internal_editorial";
-  status: "connected" | "pending_agreement" | "disabled";
+  /**
+   * `connected` is the only status that contributes to a score. The engine
+   * gates on it, so it is a claim about reality, not a UI label: a source is
+   * connected when a connector is live and has actually synced. The two
+   * not-connected reasons are kept apart because they have different fixes —
+   * `pending_agreement` waits on somebody else's signature, `not_implemented`
+   * waits on our own engineering.
+   */
+  status: "connected" | "pending_agreement" | "not_implemented" | "disabled";
   weight: number;
   /** Minutes between refreshes when connected. */
   refreshMinutes: number;

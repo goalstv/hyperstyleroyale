@@ -13,6 +13,25 @@ import type { EditorialOverride } from "@/lib/types";
 
 const NOW = "2026-09-18T00:00:00.000Z";
 
+/**
+ * A registry with every source live.
+ *
+ * These tests exercise the freeze/replay machinery, so they need a registry
+ * where signals actually contribute — the engine counts a signal only if its
+ * source is `connected`. The production registry has nothing connected (no
+ * vendor is contracted yet), which is correct for production and useless here:
+ * with no contributions every entry scores the same, and a test that tampers
+ * with one input can no longer tell it apart from one that does not.
+ *
+ * So the fixture is local. A unit test of the audit trail should not change
+ * meaning when the commercial state of the business changes.
+ */
+const CONNECTED_SOURCES = INDEX_SOURCES.map((source) => ({
+  ...source,
+  status: "connected" as const,
+  lastSyncIso: NOW,
+}));
+
 const OVERRIDES: EditorialOverride[] = [
   {
     id: "ovr_test",
@@ -27,7 +46,7 @@ const OVERRIDES: EditorialOverride[] = [
 function buildSnapshot(): IndexSnapshot {
   const published = rankEntries(CHART_ENTRIES, {
     profile: DEFAULT_PROFILE,
-    sources: INDEX_SOURCES,
+    sources: CONNECTED_SOURCES,
     overrides: OVERRIDES,
     nowIso: NOW,
   });
@@ -37,7 +56,7 @@ function buildSnapshot(): IndexSnapshot {
     createdIso: NOW,
     computedAtIso: NOW,
     profile: DEFAULT_PROFILE,
-    sources: INDEX_SOURCES,
+    sources: CONNECTED_SOURCES,
     overrides: OVERRIDES,
     observations: [],
     published,
@@ -101,12 +120,19 @@ describe("freezeSnapshot + replaySnapshot", () => {
 
   // Dropping the override changes the score, which is the point: an editorial
   // intervention is part of the published arithmetic and cannot be hidden.
+  //
+  // Both guarantees are asserted separately, because they fail independently.
+  // The digest catches the removal whatever the scores do, since overrides are
+  // frozen into it. The score diff only catches it while signals actually
+  // contribute — so if a future registry change silences the diffs, the digest
+  // is the guarantee still standing, and this test says which is which.
   it("fails to reproduce when an editorial override is removed from the record", () => {
     const snapshot = buildSnapshot();
     const withoutOverride: IndexSnapshot = { ...snapshot, overrides: [] };
 
     const result = replaySnapshot(withoutOverride, CHART_ENTRIES);
     expect(result.matches).toBe(false);
+    expect(result.digestIntact).toBe(false);
     expect(result.diffs.length).toBeGreaterThan(0);
   });
 
