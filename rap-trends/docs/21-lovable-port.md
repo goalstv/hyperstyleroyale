@@ -240,6 +240,16 @@ with a technical specification table and an **"Open items"** panel listing what 
 unresolved. A station group that finds an overstatement during due diligence does not come back,
 so the open items are as prominent as the capabilities.
 
+`/partners/catalogue` — the counted POLARIS inventory: 293 franchises, 1,019 assets, the
+named franchises with their rights posture, the supplied 28-day rotation grid and rotation
+rules, and a **"What this file does not establish"** panel. Three figures from the programming
+book's dashboard do not survive its own detail tab, and that panel names them rather than
+quietly dropping them. No library-hours figure is published, because the source has no
+durations. See `docs/25-polaris-catalogue.md`.
+
+`/partners/polaris` — the partnership itself: who owns which, who clears what, and the blocks
+POLARIS originates. Links through to the catalogue.
+
 `/advertise` — the sponsorship rate card, the capability list, and a **restricted category
 rules table** rendered from `CATEGORY_RULES`: minimum age, permitted dayparts, blocked platforms
 and conditions for alcohol, cannabis, gambling, political, pharma. Plus the enquiry form.

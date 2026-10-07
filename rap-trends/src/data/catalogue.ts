@@ -287,38 +287,50 @@ export const PROGRAMMING_PHILOSOPHY = [
 /**
  * What the workbook does not establish. Shown on the catalogue page so the
  * numbers above are never read as a cleared, schedulable library.
+ *
+ * `heading` names the field; `claim` quotes the book's own wording verbatim,
+ * including the figure. Quoting a claim in order to mark it unverifiable is not
+ * publishing it: a distributor who has seen "3,000+ library hours" in the old
+ * book needs that exact figure named and corrected, or the page corrects
+ * nothing. The figure appears nowhere else in the product.
  */
 export const CATALOGUE_CAVEATS = [
   {
+    heading: "Library hours",
     claim: "Current Library Hours — 3,000+",
     status: "unverifiable" as const,
     detail:
       "The Duration column is empty on all 293 rows, so total hours cannot be derived from this workbook. The figure is not published anywhere in the product.",
   },
   {
+    heading: "Individual assets",
     claim: "Individual Assets — 1,200+",
     status: "contradicted" as const,
     detail:
       "The detail tab counts 1,019 assets and states 1,019 as its own total. The product uses 1,019.",
   },
   {
+    heading: "Original franchises",
     claim: "Original Franchises — 20+",
     status: "different_metric" as const,
     detail:
       "The detail tab counts 293 franchises. The two are not in conflict: 20+ plainly means originals, 293 counts every catalogue row. Neither is published as the other.",
   },
   {
+    heading: "Programming mix",
     claim: "Programming Mix percentages",
     status: "empty" as const,
     detail: "Every percentage cell on the dashboard tab is blank. No mix is published.",
   },
   {
+    heading: "Rating",
     claim: "Rating — MPAA;TV-MA",
     status: "not_per_title" as const,
     detail:
       "The same value appears on all 293 rows, including news and HBCU sports. It is a bulk default, and TV-MA is a TV Parental Guidelines rating rather than an MPAA one. No rating is published per title.",
   },
   {
+    heading: "Genre",
     claim: "Genre — Pop, Urban, R&B, Alternative",
     status: "not_per_title" as const,
     detail: "Identical on all 293 rows. A template default, so it is not published as per-title genre.",
