@@ -5,9 +5,14 @@ How real data reaches the Index, and what stops it lying on the way in.
 ## The problem this solves
 
 The Index engine is good and the data behind it is invented. Every one of the
-fifteen signals is simulated, the public surface carries a standing "Simulated
-data" banner, and `robots.txt` is `Disallow: /`. The engine is not the gap —
-inputs are.
+fifteen signals is simulated and `robots.txt` is `Disallow: /`. The engine is
+not the gap — inputs are.
+
+> **Update, 7 Oct 2026.** A banner was not enough, because thirteen sources were
+> also marked `connected` with a recent sync timestamp, and the engine gates on
+> that field. The registry now reports nothing connected, so the Index refuses
+> to publish rather than scoring synthetic signals at full confidence. See
+> `docs/27-index-publication-state.md`.
 
 This layer supplies them. It does not touch `index-engine.ts`, and that is
 deliberate: the engine is pure, deterministic and covered by 35 tests, and those
