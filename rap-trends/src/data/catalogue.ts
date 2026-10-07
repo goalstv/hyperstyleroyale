@@ -109,10 +109,10 @@ const counted = {
 /**
  * Every franchise in the workbook carrying three or more assets, excluding
  * rows whose title is a working file ID rather than a title (news_final,
- * pnc_v, ep_bike_life, promo_young_thug_polaris, billy_blue). Those five are
- * real content; they have no editorial title yet, and inventing one from the
- * filename is exactly what we do not do. They are listed in the doc as
- * needing titles from POLARIS.
+ * pnc_v, white_house_anti_gun, ep_bike_life, promo_young_thug_polaris,
+ * billy_blue). Those six are real content; they have no editorial title yet,
+ * and inventing one from the filename is exactly what we do not do. They are
+ * listed in the doc as needing titles from POLARIS.
  *
  * Single-asset rows — the bulk of the 293 — are clips, junket pieces and
  * one-off reports rather than strands, so they are inventory, not schedule.

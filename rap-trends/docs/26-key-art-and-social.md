@@ -91,7 +91,7 @@ gate rather than respect it — the card would be out in a feed while the video
 stayed held. `planKeyArt` returns `blocked` and produces nothing.
 
 **A filename is never a headline.** `planKeyArt` refuses an empty headline and
-says so in those words. Roughly a hundred catalogue rows carry working file IDs
+says so in those words. Around seventy catalogue rows carry working file IDs
 (`meth_kids`, `whh_rothschild`, `zebfinal`). Those get titles from POLARIS, not
 from the renderer.
 

@@ -75,8 +75,11 @@ have been carrying filenames where titles should be.
 
 The catalogue has the same issue at source. Alongside properly titled rows sit
 working file IDs: `news_final`, `pnc_v`, `ep_bike_life`, `promo_young_thug_polaris`,
-`billy_blue`, `whh_rothschild`, `hs_jonb`, `zebfinal`, `meth_kids`, `avcar`,
-and roughly a hundred more. Several are real multi-asset strands.
+`billy_blue`, `whh_rothschild`, `hs_jonb`, `zebfinal`, `meth_kids`, `avcar`.
+A hand count of the detail tab puts it around **seventy of the 293 rows** —
+approximate, because it is a judgement call on a handful (`Milano`, `nigel`,
+`chase`) that could be either a title or a working name. Several are real
+multi-asset strands.
 
 These are **not** given titles here. A filename is an internal content ID. We
 do not infer an artist, a topic, or a story from one — `meth_kids` is a file
