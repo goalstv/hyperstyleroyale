@@ -1,0 +1,12 @@
+{
+  "name": "restovolt",
+  "private": true,
+  "type": "module",
+  "description": "RESTOVOLT (working name): fitment intelligence platform for electric restomods. Static pre-rendered prototype.",
+  "scripts": {
+    "build": "node build.mjs",
+    "og": "node og.mjs",
+    "test": "node --test test/*.test.mjs",
+    "serve": "npx http-server public -p 8080"
+  }
+}

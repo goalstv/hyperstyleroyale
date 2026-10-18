@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EV Conversion Build Configurator | RESTOVOLT</title>
+<meta name="description" content="Configure a classic car EV conversion: compatible motor, inverter, battery and BMS, estimated cost, labor hours, range and the Fitment Packs you need.">
+<link rel="canonical" href="https://www.restovolt.example/configurator">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RESTOVOLT">
+<meta property="og:title" content="EV Conversion Build Configurator | RESTOVOLT">
+<meta property="og:description" content="Configure a classic car EV conversion: compatible motor, inverter, battery and BMS, estimated cost, labor hours, range and the Fitment Packs you need.">
+<meta property="og:url" content="https://www.restovolt.example/configurator">
+<meta property="og:image" content="https://www.restovolt.example/assets/og/configurator.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@restovolt">
+<meta name="twitter:title" content="EV Conversion Build Configurator | RESTOVOLT">
+<meta name="twitter:description" content="Configure a classic car EV conversion: compatible motor, inverter, battery and BMS, estimated cost, labor hours, range and the Fitment Packs you need.">
+<meta name="twitter:image" content="https://www.restovolt.example/assets/og/configurator.jpg">
+<meta name="theme-color" content="#0E0F11" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F4F1EA" media="(prefers-color-scheme: light)">
+<link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/styles.css">
+<script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('rv-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"RESTOVOLT","url":"https://www.restovolt.example","logo":"https://www.restovolt.example/assets/logo.svg","email":"hello@restovolt.example","slogan":"Classic soul. Electric heart. Engineered to fit."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"RESTOVOLT","url":"https://www.restovolt.example","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.restovolt.example/vehicles?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.restovolt.example/"},{"@type":"ListItem","position":2,"name":"Configurator","item":"https://www.restovolt.example/configurator"}]}</script>
+</head>
+<body class="has-summary">
+
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="/" aria-label="RESTOVOLT home">
+<svg class="logo-mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+  <rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="none" stroke="currentColor" stroke-width="1.6"/>
+  <path d="M18 5 9 18h6l-2 9 10-14h-6l1-8Z" fill="var(--accent)"/>
+</svg><span>RESTOVOLT</span></a>
+    <nav class="main-nav" aria-label="Primary"><ul><li><a href="/vehicles">Fitment Library</a></li><li><a href="/configurator" aria-current="page">Configurator</a></li><li><a href="/shops">Find a Shop</a></li><li><a href="/guides">Guides</a></li><li><a href="/pricing">Pricing</a></li></ul></nav>
+    <div class="header-actions">
+      <button class="icon-btn theme-toggle" type="button" aria-label="Toggle color theme" data-theme-toggle>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg>
+      </button>
+      <a class="btn btn-ghost btn-sm hide-sm" href="/login">Sign in</a>
+      <a class="btn btn-primary btn-sm hide-sm" href="/for-shops">For Shops</a>
+      <details class="mobile-menu">
+        <summary class="icon-btn" aria-label="Menu"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.8" fill="none"/></svg></summary>
+        <nav aria-label="Mobile"><ul><li><a href="/vehicles">Fitment Library</a></li><li><a href="/configurator" aria-current="page">Configurator</a></li><li><a href="/shops">Find a Shop</a></li><li><a href="/guides">Guides</a></li><li><a href="/pricing">Pricing</a></li><li><a href="/for-shops">For Shops</a></li><li><a href="/login">Sign in</a></li></ul></nav>
+      </details>
+    </div>
+  </div>
+</header>
+<nav class="crumbs wrap" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">Configurator</span></li></ol></nav>
+<main id="main">
+
+<section class="hero"><div class="wrap">
+  <span class="eyebrow">Build configurator</span>
+  <h1>Configure an electric restomod</h1>
+  <p class="lede">Choose a platform and set your goals. We recommend a compatible drivetrain, check every component against each other and the chassis, and estimate parts, labor and the Fitment Packs you need.</p>
+</div></section>
+<form class="wrap cfg section-tight" id="cfg" novalidate>
+  <div>
+    <fieldset class="cfg-step"><legend class="visually-hidden">Vehicle</legend>
+      <h2><span class="step-num">01</span> Vehicle</h2>
+      <div class="vehicle-pick">
+        <label><input type="radio" name="vehicle" value="c10" checked><strong>C10</strong><span>1967–1972 Chevrolet</span></label>
+        <label><input type="radio" name="vehicle" value="bronco"><strong>Bronco</strong><span>1966–1977 Ford</span></label>
+        <label><input type="radio" name="vehicle" value="beetle"><strong>Beetle</strong><span>1958–1979 Volkswagen</span></label>
+        <label><input type="radio" name="vehicle" value="911"><strong>911</strong><span>1974–1989 Porsche</span></label>
+        <label><input type="radio" name="vehicle" value="miata"><strong>Miata</strong><span>1990–1997 Mazda</span></label>
+      </div>
+    </fieldset>
+    <fieldset class="cfg-step"><legend class="visually-hidden">Goals</legend>
+      <h2><span class="step-num">02</span> Goals</h2>
+      
+    <div class="range-row"><label for="g-range">Range</label>
+      <input id="g-range" name="range" type="range" min="1" max="3" step="1" value="2" aria-valuetext="Medium priority" data-goal>
+      <output for="g-range" data-out="range">Medium</output></div>
+    <p class="visually-hidden">1 = low priority, 3 = high priority</p>
+      
+    <div class="range-row"><label for="g-performance">Performance</label>
+      <input id="g-performance" name="performance" type="range" min="1" max="3" step="1" value="2" aria-valuetext="Medium priority" data-goal>
+      <output for="g-performance" data-out="performance">Medium</output></div>
+    <p class="visually-hidden">1 = low priority, 3 = high priority</p>
+      
+    <div class="range-row"><label for="g-budget">Budget focus</label>
+      <input id="g-budget" name="budget" type="range" min="1" max="3" step="1" value="2" aria-valuetext="Medium priority" data-goal>
+      <output for="g-budget" data-out="budget">Medium</output></div>
+    <p class="visually-hidden">1 = flexible, 3 = tight</p>
+      <div class="field" style="margin-top:1rem"><span class="field-label mono muted" id="rev-l">BUILD TYPE</span>
+        <div class="seg" role="radiogroup" aria-labelledby="rev-l">
+          <label><input type="radio" name="reversibility" value="either" checked> No preference</label>
+          <label><input type="radio" name="reversibility" value="reversible"> Reversible (bolt-in)</label>
+          <label><input type="radio" name="reversibility" value="permanent"> Permanent OK</label>
+        </div></div>
+      <button class="btn btn-primary" type="button" data-recommend>Recommend a drivetrain</button>
+    </fieldset>
+    <fieldset class="cfg-step"><legend class="visually-hidden">Components</legend>
+      <h2><span class="step-num">03</span> Drivetrain components <span class="sample-tag" title="Placeholder figures for the prototype">Sample catalog</span></h2>
+      <p class="muted">Adjust any component. Compatibility checks update instantly.</p>
+      
+      <div class="field"><label for="c-motor">Motor / drive unit</label><select id="c-motor" name="motor" data-component>
+        <option value="mot-ac90">Kit AC induction motor, 90 kW peak · $5,800</option><option value="mot-pm150">Kit permanent-magnet motor, 150 kW peak · $9,400</option><option value="mot-du-small">OEM rear drive unit, compact (salvage, tested) · $4,200</option><option value="mot-du-large">OEM rear drive unit, large (salvage, tested) · $5,600</option>
+      </select></div>
+      <div class="field"><label for="c-inverter">Inverter / controller</label><select id="c-inverter" name="inverter" data-component>
+        <option value="inv-lv650">Low-voltage AC controller, 650 A · $4,900</option><option value="inv-hv400">HV inverter, 400 V class · $6,200</option><option value="ctl-oem">OEM drive-unit control board (third-party) · $1,850</option>
+      </select></div>
+      <div class="field"><label for="c-battery">Battery pack</label><select id="c-battery" name="battery" data-component>
+        <option value="bat-lv32">32 kWh · 137 V pack (salvage OEM modules, 36S) · $7,600</option><option value="bat-hv24">24 kWh · 355 V pack (salvage pouch modules, 96S) · $7,900</option><option value="bat-hv40">40 kWh · 355 V pack (salvage pouch modules, 96S) · $9,800</option><option value="bat-hv58">58 kWh · 355 V pack (salvage OEM modules, 96S) · $13,500</option><option value="bat-hv85">85 kWh · 350 V pack (16 salvage OEM modules, 96S) · $17,900</option>
+      </select></div>
+      <div class="field"><label for="c-bms">Battery management (BMS)</label><select id="c-bms" name="bms" data-component>
+        <option value="bms-lv">Modular BMS, up to 48S / 200 V · $1,150</option><option value="bms-hv">Modular BMS, up to 112S / 470 V · $2,400</option>
+      </select></div>
+      <div class="field"><label for="c-charger">Onboard charger</label><select id="c-charger" name="charger" data-component>
+        <option value="chg-lv66">6.6 kW onboard charger, 100–200 V output · $1,600</option><option value="chg-hv66">6.6 kW onboard charger, 250–450 V output · $2,100</option>
+      </select></div>
+    </fieldset>
+    <section class="cfg-step" aria-labelledby="checks-h">
+      <h2 id="checks-h"><span class="step-num">04</span> Compatibility checks</h2>
+      <ul class="checks" data-checks aria-live="polite"><li data-status="warn"><span class="ico">…</span><span>Enable JavaScript to run live compatibility checks.</span></li></ul>
+    </section>
+    
+<aside class="hv-notice" role="note" aria-label="High-voltage safety notice">
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M12 2 1 21h22L12 2Zm1 14h-2v2h2v-2Zm0-7h-2v5h2V9Z" fill="currentColor"/></svg>
+  <div><strong>High-voltage safety.</strong> EV conversions involve lethal DC voltages. Installation and commissioning must be performed or supervised by a qualified, HV-trained technician following our <a href="/safety">safety standards</a>. Configurator results are planning estimates. Final component selection, fusing and commissioning must be verified by a qualified technician.</div>
+</aside>
+  </div>
+
+  <aside class="summary" aria-labelledby="sum-h">
+    <div class="card" data-summary>
+      <div class="print-only" data-print-header></div>
+      <div class="row"><h2 id="sum-h" style="font-size:1.1rem;margin:0">Build summary</h2><span class="summary-status" data-status-label>—</span></div>
+      <button class="btn btn-ghost btn-sm summary-expand" type="button" aria-expanded="false" data-expand style="width:100%;margin:.75rem 0">Show details</button>
+      <dl style="margin-top:1rem">
+        <dt>Est. range</dt><dd data-out-range>—</dd>
+        <dt>Parts cost</dt><dd data-out-parts>—</dd>
+      </dl>
+      <div class="summary-more">
+        <dl>
+          <dt>Fitment Packs</dt><dd data-out-packcost>—</dd>
+          <dt>Labor</dt><dd data-out-labor>—</dd>
+          <dt>Peak power</dt><dd data-out-power>—</dd>
+          <dt>Weight change</dt><dd data-out-weight>—</dd>
+        </dl>
+        <h3 style="font-size:.95rem">Fitment Packs needed</h3>
+        <ul class="list" data-out-packs></ul>
+        <p class="fine"><span class="sample-tag" title="Placeholder figures for the prototype">Sample data</span> Estimates use sample component prices.</p>
+        <div class="no-print">
+          <div class="field"><label for="build-name">Build name</label><input id="build-name" name="buildName" placeholder="e.g. Customer: 1969 C10"></div>
+          <div class="field"><label for="shop-logo">Shop logo for quote (optional)</label><input id="shop-logo" type="file" accept="image/png,image/jpeg,image/svg+xml"></div>
+          <div class="btn-row">
+            <button class="btn btn-primary btn-sm" type="button" data-save>Save build</button>
+            <button class="btn btn-ghost btn-sm" type="button" data-share>Copy share link</button>
+            <button class="btn btn-ghost btn-sm" type="button" data-print>Export quote PDF</button>
+          </div>
+          <p class="form-msg" role="status" data-msg></p>
+        </div>
+        <div class="print-only"><p><strong>High-voltage safety:</strong> EV conversions involve lethal DC voltages. Installation and commissioning must be performed by a qualified, HV-trained technician. Estimates are not a fixed quote.</p></div>
+      </div>
+    </div>
+  </aside>
+</form>
+<script type="application/json" id="cfg-data">{"vehicles":[{"id":"c10","name":"1967–1972 Chevrolet C10","shortName":"C10","path":"/vehicles/chevrolet/c10/1967-1972","packPath":"/vehicles/chevrolet/c10/1967-1972/fitment-pack","config":{"maxKwh":85,"motorSizes":["compact","mid","large"],"driveModes":["transmission","driveunit"],"baseLaborHours":260,"whPerMile":400,"originalDrivetrainLb":850,"maxAddedLb":900,"ratedKw":190,"addons":[{"id":"c10-du","name":"C10 Rear Drive-Unit Cradle Pack","priceUsd":590,"when":"driveunit"},{"id":"c10-ext","name":"C10 Under-Bed Extended Box Pack","priceUsd":340,"when":"kwhOver","kwh":60}]},"pack":{"name":"C10 Core Fitment Pack","priceUsd":690}},{"id":"bronco","name":"1966–1977 Ford Bronco","shortName":"Bronco","path":"/vehicles/ford/bronco/1966-1977","packPath":"/vehicles/ford/bronco/1966-1977/fitment-pack","config":{"maxKwh":58,"motorSizes":["compact","mid"],"driveModes":["transmission"],"baseLaborHours":280,"whPerMile":380,"originalDrivetrainLb":780,"maxAddedLb":500,"ratedKw":150,"addons":[{"id":"bronco-skid","name":"Bronco Battery Skid Armor Pack","priceUsd":290,"when":"kwhOver","kwh":30}]},"pack":{"name":"Bronco Core Fitment Pack","priceUsd":740}},{"id":"beetle","name":"1958–1979 Volkswagen Beetle","shortName":"Beetle","path":"/vehicles/volkswagen/beetle/1958-1979","packPath":"/vehicles/volkswagen/beetle/1958-1979/fitment-pack","config":{"maxKwh":40,"motorSizes":["compact","mid"],"driveModes":["transmission"],"baseLaborHours":170,"whPerMile":230,"originalDrivetrainLb":300,"maxAddedLb":450,"ratedKw":40,"addons":[]},"pack":{"name":"Beetle Core Fitment Pack","priceUsd":490}},{"id":"911","name":"1974–1989 Porsche 911","shortName":"911","path":"/vehicles/porsche/911/1974-1989","packPath":"/vehicles/porsche/911/1974-1989/fitment-pack","config":{"maxKwh":58,"motorSizes":["compact","mid"],"driveModes":["transmission"],"baseLaborHours":300,"whPerMile":230,"originalDrivetrainLb":600,"maxAddedLb":400,"ratedKw":150,"addons":[{"id":"911-cool","name":"911 Front Cooling Duct Pack","priceUsd":260,"when":"kwhOver","kwh":30}]},"pack":{"name":"911 Core Fitment Pack","priceUsd":890}},{"id":"miata","name":"1990–1997 Mazda MX-5 Miata","shortName":"Miata","path":"/vehicles/mazda/mx-5-miata/1990-1997","packPath":"/vehicles/mazda/mx-5-miata/1990-1997/fitment-pack","config":{"maxKwh":40,"motorSizes":["compact","mid"],"driveModes":["transmission"],"baseLaborHours":220,"whPerMile":210,"originalDrivetrainLb":450,"maxAddedLb":350,"ratedKw":100,"addons":[]},"pack":{"name":"Miata Core Fitment Pack","priceUsd":590}}],"components":[{"id":"mot-ac90","category":"motor","name":"Kit AC induction motor, 90 kW peak","condition":"new","voltageMin":96,"voltageMax":175,"peakKw":90,"weightLb":115,"priceUsd":5800,"size":"compact","driveMode":"transmission","controllers":["inv-lv650"]},{"id":"mot-pm150","category":"motor","name":"Kit permanent-magnet motor, 150 kW peak","condition":"new","voltageMin":250,"voltageMax":420,"peakKw":150,"weightLb":130,"priceUsd":9400,"size":"mid","driveMode":"transmission","controllers":["inv-hv400"]},{"id":"mot-du-small","category":"motor","name":"OEM rear drive unit, compact (salvage, tested)","condition":"salvage-tested","voltageMin":280,"voltageMax":410,"peakKw":200,"weightLb":200,"priceUsd":4200,"size":"mid","driveMode":"driveunit","controllers":["ctl-oem"]},{"id":"mot-du-large","category":"motor","name":"OEM rear drive unit, large (salvage, tested)","condition":"salvage-tested","voltageMin":300,"voltageMax":410,"peakKw":300,"weightLb":290,"priceUsd":5600,"size":"large","driveMode":"driveunit","controllers":["ctl-oem"]},{"id":"inv-lv650","category":"inverter","name":"Low-voltage AC controller, 650 A","condition":"new","voltageMin":96,"voltageMax":175,"weightLb":22,"priceUsd":4900},{"id":"inv-hv400","category":"inverter","name":"HV inverter, 400 V class","condition":"new","voltageMin":250,"voltageMax":450,"weightLb":26,"priceUsd":6200},{"id":"ctl-oem","category":"inverter","name":"OEM drive-unit control board (third-party)","condition":"new","voltageMin":250,"voltageMax":420,"weightLb":3,"priceUsd":1850},{"id":"bat-lv32","category":"battery","name":"32 kWh · 137 V pack (salvage OEM modules, 36S)","condition":"salvage-tested","kwh":32,"nominalV":137,"maxV":151,"cellsSeries":36,"weightLb":420,"priceUsd":7600},{"id":"bat-hv24","category":"battery","name":"24 kWh · 355 V pack (salvage pouch modules, 96S)","condition":"salvage-tested","kwh":24,"nominalV":355,"maxV":403,"cellsSeries":96,"weightLb":420,"priceUsd":7900},{"id":"bat-hv40","category":"battery","name":"40 kWh · 355 V pack (salvage pouch modules, 96S)","condition":"salvage-tested","kwh":40,"nominalV":355,"maxV":403,"cellsSeries":96,"weightLb":640,"priceUsd":9800},{"id":"bat-hv58","category":"battery","name":"58 kWh · 355 V pack (salvage OEM modules, 96S)","condition":"salvage-tested","kwh":58,"nominalV":355,"maxV":403,"cellsSeries":96,"weightLb":840,"priceUsd":13500},{"id":"bat-hv85","category":"battery","name":"85 kWh · 350 V pack (16 salvage OEM modules, 96S)","condition":"salvage-tested","kwh":85,"nominalV":350,"maxV":403,"cellsSeries":96,"weightLb":1180,"priceUsd":17900},{"id":"bms-lv","category":"bms","name":"Modular BMS, up to 48S / 200 V","condition":"new","maxSeries":48,"maxV":200,"weightLb":6,"priceUsd":1150},{"id":"bms-hv","category":"bms","name":"Modular BMS, up to 112S / 470 V","condition":"new","maxSeries":112,"maxV":470,"weightLb":9,"priceUsd":2400},{"id":"chg-lv66","category":"charger","name":"6.6 kW onboard charger, 100–200 V output","condition":"new","voltageMin":100,"voltageMax":200,"weightLb":18,"priceUsd":1600},{"id":"chg-hv66","category":"charger","name":"6.6 kW onboard charger, 250–450 V output","condition":"new","voltageMin":250,"voltageMax":450,"weightLb":18,"priceUsd":2100}],"base":""}</script>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand"><a class="brand" href="/">
+<svg class="logo-mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+  <rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="none" stroke="currentColor" stroke-width="1.6"/>
+  <path d="M18 5 9 18h6l-2 9 10-14h-6l1-8Z" fill="var(--accent)"/>
+</svg><span>RESTOVOLT</span></a><p>Classic soul. Electric heart. Engineered to fit.</p>
+        <p class="fine">Prototype build. Figures marked “sample” are placeholders. RESTOVOLT is independent and not affiliated with any vehicle manufacturer; model names identify fitment only.</p></div>
+      <div><h2 class="foot-h">Platform</h2><ul><li><a href="/vehicles">Fitment Library</a></li><li><a href="/configurator">Build Configurator</a></li><li><a href="/parts">Parts Marketplace</a></li><li><a href="/builds">Build Journals</a></li><li><a href="/scan-upload">Scan Upload</a></li></ul></div><div><h2 class="foot-h">For Shops</h2><ul><li><a href="/for-shops">Why RESTOVOLT</a></li><li><a href="/pricing">Pricing</a></li><li><a href="/dashboard">Shop Dashboard</a></li><li><a href="/login">Sign in</a></li></ul></div><div><h2 class="foot-h">Owners</h2><ul><li><a href="/shops">Find a certified shop</a></li><li><a href="/shops/georgia/atlanta">EV conversion shops in Atlanta</a></li><li><a href="/guides">Conversion guides</a></li><li><a href="/safety">Safety & compliance</a></li></ul></div><div><h2 class="foot-h">Company</h2><ul><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li><li><a href="/safety">Engineering standards</a></li><li><a href="/sitemap.xml">XML sitemap</a></li></ul></div>
+      <div><h2 class="foot-h">Vehicles</h2><ul><li><a href="/vehicles/chevrolet/c10/1967-1972">1967–1972 Chevrolet C10 EV conversion</a></li><li><a href="/vehicles/ford/bronco/1966-1977">1966–1977 Ford Bronco EV conversion</a></li><li><a href="/vehicles/volkswagen/beetle/1958-1979">1958–1979 Volkswagen Beetle EV conversion</a></li><li><a href="/vehicles/porsche/911/1974-1989">1974–1989 Porsche 911 EV conversion</a></li><li><a href="/vehicles/mazda/mx-5-miata/1990-1997">1990–1997 Mazda MX-5 Miata EV conversion</a></li></ul></div>
+      <div><h2 class="foot-h">Cost guides</h2><ul><li><a href="/cost/chevrolet-c10-ev-conversion-cost">C10 EV conversion cost</a></li><li><a href="/cost/ford-bronco-ev-conversion-cost">Bronco EV conversion cost</a></li><li><a href="/cost/volkswagen-beetle-ev-conversion-cost">Beetle EV conversion cost</a></li><li><a href="/cost/porsche-911-ev-conversion-cost">911 EV conversion cost</a></li><li><a href="/cost/mazda-mx-5-miata-ev-conversion-cost">Miata EV conversion cost</a></li></ul></div>
+    </div>
+    <p class="fine foot-legal">© 2026 RESTOVOLT (working name). Designs are provided for qualified professionals. Confirm titling, insurance and registration rules locally.</p>
+  </div>
+</footer>
+<script type="module" src="/assets/app.js"></script>
+<script type="module" src="/assets/configurator.js"></script>
+</body>
+</html>
